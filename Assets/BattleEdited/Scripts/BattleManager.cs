@@ -237,7 +237,7 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator ClashingTurn()
     {
-        for (float t = 0; t < 1.0f; t += Time.deltaTime)
+        for (float t = 0; t < 0.5f; t += Time.deltaTime)
         {
             content.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(content.GetComponent<RectTransform>().anchoredPosition, Vector2.zero, t);
             yield return null;
@@ -253,13 +253,13 @@ public class BattleManager : MonoBehaviour
             actionList[i].SetActive(false);
             actionList[i + 1].SetActive(false);
 
-
-
             yield return new WaitForSeconds(0.5f);
+
+
 
             for (float t = 0; t < 0.5f; t += Time.deltaTime)
             {
-                content.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(content.GetComponent<RectTransform>().anchoredPosition, Vector2.zero, t);
+                content.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(content.GetComponent<RectTransform>().anchoredPosition, Vector2.down * 100 * (i / 2 + 1), t);
                 yield return null;
             }
         }
