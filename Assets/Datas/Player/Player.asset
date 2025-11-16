@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5bcaa9b24cbdae4face45744173de34, type: 3}
+  m_Name: Player
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerData
+  ID: 0
+  playerIcon: {fileID: 7482667652216324306, guid: 77e0dedd34afe5f4b861487baed963f6, type: 3}
+  playerName: "\uD50C\uB808\uC774\uC5B4"
+  baseHP: 80
+  baseSP: 4
+  baseATK: 8
+  baseDEF: 8
+  actionDataList:
+  - {fileID: 11400000, guid: 35b556940f3aba640acc43c050e174ae, type: 2}
+  - {fileID: 11400000, guid: c921d74fb589144439d7164ad1ce0b18, type: 2}
+  - {fileID: 11400000, guid: a9d10b3afc511334986d089017a2784a, type: 2}
+  - {fileID: 11400000, guid: e56306fd653af2241aafbd496fcde8c9, type: 2}
+  - {fileID: 11400000, guid: 0a4b5c6418b81614a8362a1d3cc55f3a, type: 2}
+  - {fileID: 11400000, guid: b01012c1ca6df094190e1c8dc1e662ec, type: 2}
+  - {fileID: 11400000, guid: 93813ab6b6c98774589d278d1de5014a, type: 2}

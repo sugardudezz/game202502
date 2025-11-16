@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49823948b87c4f347ad2ce669fa51390, type: 3}
+  m_Name: PlayerAction 2
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerActionData
+  ID: 2
+  isEnhanced: 1
+  actionIcon: {fileID: -566299823056026979, guid: 59e061a11a4352a4d969d3734aec2bc6, type: 3}
+  actionName: "\uAC15\uACF5\uACA9"
+  actionDesc: "<sprite=1> <color=#ff0000ff>150%</color>\uC758 \uD53C\uD574\uB97C
+    \uAC00\uD569\uB2C8\uB2E4"
