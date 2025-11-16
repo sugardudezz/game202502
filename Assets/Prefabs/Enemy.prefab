@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2131644193508309334}
   - component: {fileID: 8263724631938373607}
-  - component: {fileID: 5884698729998735076}
+  - component: {fileID: 4852243457113442180}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -91,7 +91,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5884698729998735076
+--- !u!114 &4852243457113442180
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,16 +102,17 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bbde2004cca3464ca3fe869440efa6b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  ID: 0
   enemyName: 
-  enemyIcon: {fileID: 0}
   baseHP: 0
-  basePP: 0
+  baseSP: 0
   baseATK: 0
   baseDEF: 0
+  actionDataList: []
   maxHP: 0
+  maxSP: 0
   currentHP: 0
-  maxPP: 0
-  currentPP: 0
-  ATK: 0
-  DEF: 0
+  currentSP: 0
+  currentATK: 0
+  currentDEF: 0

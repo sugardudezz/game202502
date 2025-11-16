@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class BattleManager : MonoBehaviour
 {
     [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject scrollView;
@@ -252,9 +252,10 @@ public class GameManager : MonoBehaviour
             }
             actionList[i].SetActive(false);
             actionList[i + 1].SetActive(false);
-            Debug.Log("Test");
 
-            yield return new WaitForSeconds(1.0f);
+
+
+            yield return new WaitForSeconds(0.5f);
 
             for (float t = 0; t < 0.5f; t += Time.deltaTime)
             {
