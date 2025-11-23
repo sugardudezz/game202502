@@ -10,8 +10,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private GameObject content;
 
     [SerializeField] private int playerDataID;
-    [SerializeField] private List<PlayerData> playerDataList;
     [SerializeField] private int enemyDataID;
+    [SerializeField] private List<PlayerData> playerDataList;
     [SerializeField] private List<EnemyData> enemyDataList;
 
     [SerializeField] private GameObject prefabPlayer;
@@ -33,15 +33,22 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private GameObject prefabPlayerAction;
     [SerializeField] private GameObject prefabEnemyAction;
 
+    [SerializeField] private int playerAP;
+    [SerializeField] private int enemyAP;
     [SerializeField] private List<GameObject> actionHolderList;
     [SerializeField] private List<GameObject> actionList;
 
-    [SerializeField] private int playerAP;
-    [SerializeField] private int enemyAP;
+    [SerializeField] private GameObject prefabEffect;
+
+    [SerializeField] private List<EffectData> effectDataList;
+    [SerializeField] private List<EffectData> pCurrentEffect;
+    [SerializeField] private List<EffectData> eCurrentEffect;
+    [SerializeField] private List<Effect> pEffectList;
+    [SerializeField] private List<Effect> eEffectList;
 
     [SerializeField] private GameObject turnSwitch;
 
-    [SerializeField] private enum ActionID
+    [SerializeField] private enum PlayerActionID
     {
         Empty,
         Attack,
@@ -51,6 +58,17 @@ public class BattleManager : MonoBehaviour
         Special1,
         Charged_Special1
     }
+    [SerializeField] private enum EnemyActionID
+    {
+        Empty,
+        Attack,
+        Charged_Attack,
+        Defend,
+        Charged_Defend,
+        Special1,
+        Charged_Special1
+    }
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -100,14 +118,27 @@ public class BattleManager : MonoBehaviour
 
     void TurnStart()
     {
+        turnSwitch.GetComponent<TurnSwitch>().EnableSwitch();
+        scrollView.GetComponent<ScrollRect>().movementType = ScrollRect.MovementType.Elastic;
+        scrollView.GetComponent<ScrollRect>().vertical = true;
+
+        content.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+        foreach (GameObject actionHolder in actionHolderList)
+        {
+            Destroy(actionHolder);
+        }
         actionHolderList.Clear();
+        foreach (GameObject action in actionList)
+        {
+            Destroy(action);
+        }
         actionList.Clear();
 
         int playerMaxAP = player.maxSP;
         int enemyMaxAP = enemy.maxSP;
         playerAP = playerMaxAP;
         enemyAP = enemyMaxAP;
-
         for (int i = 0; i < Mathf.Max(playerMaxAP, enemyMaxAP); i++)
         {
             actionHolderList.Add(Instantiate(prefabActionHolder, content.transform, false));
@@ -179,6 +210,7 @@ public class BattleManager : MonoBehaviour
 
     void TurnEnd()
     {
+        turnSwitch.GetComponent<TurnSwitch>().DisableSwitch();
         scrollView.GetComponent<ScrollRect>().movementType = ScrollRect.MovementType.Unrestricted;
         scrollView.GetComponent<ScrollRect>().vertical = false;
         foreach (var action in actionList)
@@ -187,12 +219,12 @@ public class BattleManager : MonoBehaviour
 
             if (action.GetComponent<PlayerAction>() != null)
             {
-                Destroy(action.GetComponent<PlayerAction>().DetailBar);
-                Destroy(action.GetComponent<PlayerAction>().SelectBar);
+                Destroy(action.GetComponent<PlayerAction>().DetailWindow);
+                Destroy(action.GetComponent<PlayerAction>().SelectWindow);
             }
             else
             {
-                Destroy(action.GetComponent<EnemyAction>().DetailBar);
+                Destroy(action.GetComponent<EnemyAction>().DetailWindow);
             }
         }
 
@@ -239,11 +271,108 @@ public class BattleManager : MonoBehaviour
     {
         for (float t = 0; t < 0.5f; t += Time.deltaTime)
         {
-            content.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(content.GetComponent<RectTransform>().anchoredPosition, Vector2.zero, t);
+            content.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(content.GetComponent<RectTransform>().anchoredPosition, Vector2.up * 100, t);
             yield return null;
         }
+
         for (int i = 0; i < actionList.Count; i += 2)
         {
+            for (float t = 0; t < 0.5f; t += Time.deltaTime)
+            {
+                content.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(content.GetComponent<RectTransform>().anchoredPosition, Vector2.down * 100 * (i / 2), t);
+                yield return null;
+            }
+
+            int pDamage = 0;
+            int pDmgDef = 0;
+            int eDamage = 0;
+            int eDmgDef = 0;
+            switch (actionList[i].GetComponent<PlayerAction>().actionID)
+            {
+                case (int)PlayerActionID.Attack:
+                    pDamage += (int)(player.currentATK * 1.0f);
+                    break;
+
+                case (int)PlayerActionID.Charged_Attack:
+                    pDamage += (int)(player.currentATK * 1.5f);
+                    break;
+
+                case (int)PlayerActionID.Defend:
+                    pDmgDef += (int)(player.currentDEF * 1.0f);
+                    break;
+
+                case (int)PlayerActionID.Charged_Defend:
+                    pDmgDef += (int)(player.currentDEF * 1.5f);
+                    break;
+
+                case (int)PlayerActionID.Special1:
+                    break;
+
+                case (int)PlayerActionID.Charged_Special1:
+                    break;
+            }
+            switch (actionList[i + 1].GetComponent<EnemyAction>().actionID)
+            {
+                case (int)EnemyActionID.Attack:
+                    eDamage += (int)(enemy.currentATK * 1.0f);
+                    break;
+
+                case (int)EnemyActionID.Charged_Attack:
+                    eDamage += (int)(enemy.currentATK * 1.5f);
+                    break;
+
+                case (int)EnemyActionID.Defend:
+                    eDmgDef += (int)(enemy.currentDEF * 1.0f);
+                    break;
+
+                case (int)EnemyActionID.Charged_Defend:
+                    eDmgDef += (int)(enemy.currentDEF * 1.5f);
+                    break;
+
+                case (int)EnemyActionID.Special1:
+                    break;
+
+                case (int)EnemyActionID.Charged_Special1:
+                    break;
+            }
+            int pUsedAP = (!actionList[i].GetComponent<PlayerAction>().isEnhanced) ? 1 : 2;
+            int eUsedAP = (!actionList[i + 1].GetComponent<EnemyAction>().isEnhanced) ? 1 : 2;
+            int pStanceDamage = 0;
+            int eStanceDamage = 0;
+            if (pDamage > 0)
+            {
+                if (eDmgDef <= 0)
+                {
+                    pStanceDamage += pUsedAP + 1;
+                }
+                else if (eDmgDef < pDamage)
+                {
+                    pStanceDamage += pUsedAP;
+                    eStanceDamage += eUsedAP;
+                }
+                else if (eDmgDef >= pDamage)
+                {
+                    eStanceDamage += eUsedAP + 1;
+                }
+            }
+            if (eDamage > 0)
+            {
+                if (pDmgDef <= 0)
+                {
+                    eStanceDamage += eUsedAP + 1;
+                }
+                else if (pDmgDef < eDamage)
+                {
+                    eStanceDamage += eUsedAP;
+                    pStanceDamage += pUsedAP;
+                }
+                else if (pDmgDef >= eDamage)
+                {
+                    pStanceDamage += pUsedAP + 1;
+                }
+            }
+            yield return new WaitForSeconds(0.5f);
+
             while (actionList[i].GetComponent<RectTransform>().anchoredPosition != actionList[i + 1].GetComponent<RectTransform>().anchoredPosition)
             {
                 actionList[i].GetComponent<RectTransform>().anchoredPosition = Vector2.MoveTowards(actionList[i].GetComponent<RectTransform>().anchoredPosition, Vector2.zero, 1.0f);
@@ -253,15 +382,27 @@ public class BattleManager : MonoBehaviour
             actionList[i].SetActive(false);
             actionList[i + 1].SetActive(false);
 
-            yield return new WaitForSeconds(0.5f);
+            player.TakeDamage(Mathf.Max(0, eDamage - pDmgDef), eStanceDamage);
+            enemy.TakeDamage(Mathf.Max(0, pDamage - eDmgDef), pStanceDamage);
+            playerStatus.UpdateStatus(player);
+            enemyStatus.UpdateStatus(enemy);
 
-
-
-            for (float t = 0; t < 0.5f; t += Time.deltaTime)
+            bool pIsDead = player.currentHP <= 0;
+            bool eIsDead = enemy.currentHP <= 0;
+            if (pIsDead || eIsDead)
             {
-                content.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(content.GetComponent<RectTransform>().anchoredPosition, Vector2.down * 100 * (i / 2 + 1), t);
-                yield return null;
+                if (pIsDead)
+                {
+                    //게임오버 효과
+                }
+                if (eIsDead)
+                {
+                    //적 처치 효과
+                }
+                yield break;
             }
         }
+
+        TurnStart();
     }
 }

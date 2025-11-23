@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TurnSwitch : MonoBehaviour
+public class TurnSwitch : MonoBehaviour, IPointerClickHandler
 {
     public bool isPlanningTurn;
 
@@ -11,7 +11,7 @@ public class TurnSwitch : MonoBehaviour
     {
         isPlanningTurn = true;
 
-        GetComponent<Button>().onClick.AddListener(SwitchToClashingTurn);
+        //GetComponent<Button>().onClick.AddListener(DisableSwitch);
     }
 
     // Update is called once per frame
@@ -20,15 +20,20 @@ public class TurnSwitch : MonoBehaviour
         
     }
 
-    public void SwitchToClashingTurn()
+    public void OnPointerClick(PointerEventData eventData)
     {
         isPlanningTurn = false;
+    }
+
+    public void DisableSwitch()
+    {
+        //isPlanningTurn = false;
 
         GetComponent<Image>().color = new Color(1, 1, 1, 0.2f);
         GetComponent<Button>().interactable = false;
     }
 
-    public void SwitchToPlanningTurn()
+    public void EnableSwitch()
     {
         isPlanningTurn = true;
 

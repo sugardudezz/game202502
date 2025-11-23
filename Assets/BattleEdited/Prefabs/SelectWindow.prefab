@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 6252122306083081535}
   - component: {fileID: 7732222586209128178}
   m_Layer: 5
-  m_Name: SelectBar
+  m_Name: SelectWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

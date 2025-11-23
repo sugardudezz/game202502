@@ -16,5 +16,5 @@ MonoBehaviour:
   isEnhanced: 0
   actionIcon: {fileID: -7008412969330441016, guid: b40ad2acf3385d74d90e187a00aa6678, type: 3}
   actionName: "\uACF5\uACA9"
-  actionDesc: "<sprite=1> <color=#ff0000ff>100%</color>\uC758 \uD53C\uD574\uB97C
+  actionDesc: "<sprite name=\"ATKPow\"> <color=#ff0000ff>100%</color>\uC758 \uD53C\uD574\uB97C
     \uAC00\uD569\uB2C8\uB2E4"

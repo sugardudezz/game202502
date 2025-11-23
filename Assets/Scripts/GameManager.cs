@@ -12,19 +12,13 @@ public class GameManager : MonoBehaviour
     
     void Awake()
     {
-        if (instance != null)
-        {
+        if (instance != null) {
             Destroy(this.gameObject);
             return;
         }
         
         instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
-        
     }
 
     public void ChangeScene(string sceneName)
