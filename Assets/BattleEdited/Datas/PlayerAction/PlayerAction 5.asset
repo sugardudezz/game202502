@@ -16,5 +16,5 @@ MonoBehaviour:
   isEnhanced: 0
   actionIcon: {fileID: -9068871714124230211, guid: c4d86326551377f4e97ac4b06f60527d, type: 3}
   actionName: "\uB300\uBE44"
-  actionDesc: "\uB2E4\uC74C \uBC29\uC5B4 \uC2DC <sprite=0> <color=#00ffffff>75%</color>\uC758
+  actionDesc: "\uB2E4\uC74C \uBC29\uC5B4 \uC2DC <sprite name=\"DEFPow\"> <color=#00ffffff>75%</color>\uC758
     \uCD94\uAC00 \uD53C\uD574 \uAC10\uC18C\uB97C \uC5BB\uC2B5\uB2C8\uB2E4"

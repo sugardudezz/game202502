@@ -4,6 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int ID;
+    public Sprite playerIcon;
     public string playerName;
     public int baseHP;
     public int baseSP;
@@ -34,12 +35,13 @@ public class Player : MonoBehaviour
     public void Init(PlayerData data)
     {
         ID = data.ID;
-        GetComponent<SpriteRenderer>().sprite = data.playerIcon;
+        playerIcon = data.playerIcon;
         playerName = data.playerName;
         baseHP = data.baseHP;
         baseSP = data.baseSP;
         baseATK = data.baseATK;
         baseDEF = data.baseDEF;
+        GetComponent<SpriteRenderer>().sprite = playerIcon;
 
         actionDataList = data.actionDataList;
 
@@ -49,5 +51,11 @@ public class Player : MonoBehaviour
         currentSP = maxSP;
         currentATK = baseATK;
         currentDEF = baseDEF;
+    }
+
+    public void TakeDamage(int damage, int stanceDamage)
+    {
+        currentHP = Mathf.Max(0, currentHP - damage);
+        currentSP = Mathf.Max(0, currentSP - stanceDamage);
     }
 }

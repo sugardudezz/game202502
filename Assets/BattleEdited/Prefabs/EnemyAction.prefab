@@ -133,9 +133,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef99b0c3bec1fc4c8e924e670deea37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  prefabDetailBar: {fileID: 5986745105523214816, guid: a3b994e5d745eab45aa288079314b224, type: 3}
-  DetailBar: {fileID: 0}
+  prefabDetailWindow: {fileID: 5986745105523214816, guid: a3b994e5d745eab45aa288079314b224, type: 3}
+  DetailWindow: {fileID: 0}
+  actionDataList: []
   actionID: 0
   isEnhanced: 0
+  actionIcon: {fileID: 0}
   actionName: 
   actionDesc: 

@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 5934540163126842250}
   - component: {fileID: 227966973127548252}
   m_Layer: 5
-  m_Name: HealthPoint
+  m_Name: HealthRate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 9074245858751071141}
   - component: {fileID: 394104395262888879}
   m_Layer: 5
-  m_Name: HealthBar
+  m_Name: HealthLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -316,7 +316,7 @@ GameObject:
   - component: {fileID: 409036804734689146}
   - component: {fileID: 6072672532916381829}
   m_Layer: 5
-  m_Name: StancePoint
+  m_Name: StanceRate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -580,7 +580,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <sprite=1> 888
+  m_text: <sprite=1> 88
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 719b7b63d7ff6b44e99476001dd2150e, type: 2}
   m_sharedMaterial: {fileID: 2696176307911058491, guid: 719b7b63d7ff6b44e99476001dd2150e, type: 2}
@@ -664,7 +664,7 @@ GameObject:
   - component: {fileID: 5958265446510530380}
   - component: {fileID: 7008746991001892870}
   m_Layer: 5
-  m_Name: StanceBar
+  m_Name: StanceLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -795,14 +795,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72ace9a115373884eb86021eb17553f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  prefabScale: {fileID: 5195079183360461840, guid: 9b0ba5355183c334785e4a30aad306f9, type: 3}
+  prefabDivide: {fileID: 5195079183360461840, guid: 9b0ba5355183c334785e4a30aad306f9, type: 3}
   nameText: {fileID: 7635630490985746886}
   ATKPowText: {fileID: 580871584750100852}
   DEFPowText: {fileID: 9036004815463888387}
   healthText: {fileID: 5801531628363152287}
-  healthPoint: {fileID: 227966973127548252}
-  stancePoint: {fileID: 6072672532916381829}
-  pointScale: []
+  healthRate: {fileID: 227966973127548252}
+  stanceRate: {fileID: 6072672532916381829}
+  rateDivide: []
 --- !u!1 &6266223874479259961
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,7 +815,7 @@ GameObject:
   - component: {fileID: 4059564835145930703}
   - component: {fileID: 5603810254677437279}
   m_Layer: 5
-  m_Name: StatBar
+  m_Name: StatLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -863,7 +863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.9411765}
+  m_Color: {r: 0.3, g: 0.3, b: 0.3, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -892,7 +892,7 @@ GameObject:
   - component: {fileID: 932576187877919042}
   - component: {fileID: 6275589630207663615}
   m_Layer: 5
-  m_Name: NameBar
+  m_Name: NameLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1021,7 +1021,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <sprite=0> 888
+  m_text: <sprite=0> 88
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 719b7b63d7ff6b44e99476001dd2150e, type: 2}
   m_sharedMaterial: {fileID: 2696176307911058491, guid: 719b7b63d7ff6b44e99476001dd2150e, type: 2}

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4705657227712157525}
   - component: {fileID: 2474464676341965389}
   m_Layer: 5
-  m_Name: DetailBar
+  m_Name: DetailWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

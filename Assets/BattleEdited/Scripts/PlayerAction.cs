@@ -8,11 +8,11 @@ using UnityEngine.UI;
 
 public class PlayerAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public GameObject prefabDetailBar;
-    public GameObject prefabSelectBar;
+    public GameObject prefabDetailWindow;
+    public GameObject prefabSelectWindow;
 
-    public GameObject DetailBar;
-    public GameObject SelectBar;
+    public GameObject DetailWindow;
+    public GameObject SelectWindow;
 
     public List<PlayerActionData> actionDataList;
 
@@ -53,65 +53,68 @@ public class PlayerAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         actionID = data.ID;
         isEnhanced = data.isEnhanced;
-        GetComponent<Image>().sprite = data.actionIcon;
+        actionIcon = data.actionIcon;
         actionName = data.actionName;
         actionDesc = data.actionDesc;
+        GetComponent<Image>().sprite = actionIcon;
 
         originData = data;
 
         OnActionAssigned?.Invoke();
 
-        if (SelectBar != null)
+        if (SelectWindow != null)
         {
-            Destroy(DetailBar);
-            Destroy(SelectBar);
+            Destroy(DetailWindow);
+            Destroy(SelectWindow);
 
             if (isEnabled)
             {
-                ShowSelectBar();
-                ExecuteEvents.Execute(SelectBar, new PointerEventData(EventSystem.current), ExecuteEvents.pointerEnterHandler);
+                ShowSelectWindow();
+                ExecuteEvents.Execute(SelectWindow, new PointerEventData(EventSystem.current), ExecuteEvents.pointerEnterHandler);
             }
         }
     }
 
     public void DemoAction(PlayerActionData data)
     {
-        GetComponent<Image>().sprite = data.actionIcon;
         actionID = data.ID;
+        actionIcon = data.actionIcon;
         actionName = data.actionName;
         actionDesc = data.actionDesc;
+        GetComponent<Image>().sprite = actionIcon;
 
-        ShowDetailBar();
+        ShowDetailWindow();
     }
 
     public void UndoAction()
     {
-        GetComponent<Image>().sprite = originData.actionIcon;
         actionID = originData.ID;
+        actionIcon = originData.actionIcon;
         actionName = originData.actionName;
         actionDesc = originData.actionDesc;
+        GetComponent<Image>().sprite = actionIcon;
 
-        Destroy(DetailBar);
+        Destroy(DetailWindow);
     }
 
-    public void ShowDetailBar()
+    public void ShowDetailWindow()
     {
-        DetailBar = Instantiate(prefabDetailBar, transform.root, false);
-        DetailBar.transform.position = transform.position;
-        DetailBar.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 52.5f;
-        DetailBar.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = actionName + "\n" + actionDesc;
+        DetailWindow = Instantiate(prefabDetailWindow, transform.root, false);
+        DetailWindow.transform.position = transform.position;
+        DetailWindow.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 52.5f;
+        DetailWindow.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = actionName + "\n" + actionDesc;
     }
 
-    public void ShowSelectBar()
+    public void ShowSelectWindow()
     {
-        if (SelectBar != null)
+        if (SelectWindow != null)
         {
-            Destroy(SelectBar);
+            Destroy(SelectWindow);
         }
-        SelectBar = Instantiate(prefabSelectBar, transform.root, false);
-        SelectBar.transform.position = transform.position;
-        SelectBar.transform.SetSiblingIndex(GetComponentInParent<ScrollRect>().transform.GetSiblingIndex());
-        SelectBar.transform.GetComponent<SelectBar>().Init(this);
+        SelectWindow = Instantiate(prefabSelectWindow, transform.root, false);
+        SelectWindow.transform.position = transform.position;
+        SelectWindow.transform.SetSiblingIndex(GetComponentInParent<ScrollRect>().transform.GetSiblingIndex());
+        SelectWindow.transform.GetComponent<SelectWindow>().Init(this);
     }
 
     public void Disable()
@@ -126,28 +129,28 @@ public class PlayerAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             }
             GetComponent<Button>().interactable = false;
 
-            Destroy(DetailBar);
-            Destroy(SelectBar);
+            Destroy(DetailWindow);
+            Destroy(SelectWindow);
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ShowDetailBar();
+        ShowDetailWindow();
 
         if (isEnabled)
         {
             GetComponentsInParent<Image>()[1].raycastTarget = false;
 
-            ShowSelectBar();
+            ShowSelectWindow();
         }
 
-        StartCoroutine(ChasingBar());
+        StartCoroutine(FollowAction());
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Destroy(DetailBar);
+        Destroy(DetailWindow);
 
         if (isEnabled)
         {
@@ -155,18 +158,18 @@ public class PlayerAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
 
-    IEnumerator ChasingBar()
+    IEnumerator FollowAction()
     {
-        while (DetailBar != null || SelectBar != null)
+        while (DetailWindow != null || SelectWindow != null)
         {
-            if (DetailBar != null)
+            if (DetailWindow != null)
             {
-                DetailBar.transform.position = transform.position;
-                DetailBar.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 52.5f;
+                DetailWindow.transform.position = transform.position;
+                DetailWindow.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 52.5f;
             }
-            if (SelectBar != null)
+            if (SelectWindow != null)
             {
-                SelectBar.transform.position = transform.position;
+                SelectWindow.transform.position = transform.position;
             }
             yield return null;
         }
@@ -176,15 +179,15 @@ public class PlayerAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         yield return null;
 
-        if (SelectBar != null)
+        if (SelectWindow != null)
         {
-            if (SelectBar.GetComponent<SelectBar>().isCursorOver)
+            if (SelectWindow.GetComponent<SelectWindow>().isCursorOver)
             {
-                yield return new WaitWhile(() => (SelectBar != null) ? SelectBar.GetComponent<SelectBar>().isCursorOver : false);
+                yield return new WaitWhile(() => (SelectWindow != null) ? SelectWindow.GetComponent<SelectWindow>().isCursorOver : false);
             }
         }
         GetComponentsInParent<Image>()[1].raycastTarget = true;
 
-        Destroy(SelectBar);
+        Destroy(SelectWindow);
     }
 }

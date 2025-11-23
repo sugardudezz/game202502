@@ -16,7 +16,7 @@ MonoBehaviour:
   enemyIcon: {fileID: -2413806693520163455, guid: a0600752841f77f4ab24e9bd67989651, type: 3}
   enemyName: "\uC8013"
   baseHP: 45
-  baseSP: 8
+  baseSP: 6
   baseATK: 4
   baseDEF: 6
   actionDataList:

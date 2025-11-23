@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectBar : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class SelectWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public bool isCursorOver;
 

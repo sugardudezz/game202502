@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public MapPlayer mapPlayer;
-    private int round = 0;
+    //private int round = 0;
     
     void Awake()
     {

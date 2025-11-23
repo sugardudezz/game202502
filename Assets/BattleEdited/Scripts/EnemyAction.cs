@@ -8,14 +8,15 @@ using UnityEngine.UI;
 
 public class EnemyAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public GameObject prefabDetailBar;
+    public GameObject prefabDetailWindow;
 
-    public GameObject DetailBar;
+    public GameObject DetailWindow;
 
     public List<EnemyActionData> actionDataList;
 
     public int actionID;
     public bool isEnhanced;
+    public Sprite actionIcon;
     public string actionName;
     public string actionDesc;
 
@@ -42,9 +43,11 @@ public class EnemyAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         actionID = data.ID;
         isEnhanced = data.isEnhanced;
-        GetComponent<Image>().sprite = data.actionIcon;
+        actionIcon = data.actionIcon;
         actionName = data.actionName;
         actionDesc = data.actionDesc;
+
+        GetComponent<Image>().sprite = actionIcon;
     }
 
     public void Disable()
@@ -55,25 +58,25 @@ public class EnemyAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        DetailBar = Instantiate(prefabDetailBar, transform.root, false);
-        DetailBar.transform.position = transform.position;
-        DetailBar.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 50;
-        DetailBar.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = actionName + "\n" + actionDesc;
+        DetailWindow = Instantiate(prefabDetailWindow, transform.root, false);
+        DetailWindow.transform.position = transform.position;
+        DetailWindow.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 50;
+        DetailWindow.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = actionName + "\n" + actionDesc;
 
-        StartCoroutine(ChasingBar());
+        StartCoroutine(FollowAction());
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Destroy(DetailBar);
+        Destroy(DetailWindow);
     }
 
-    IEnumerator ChasingBar()
+    IEnumerator FollowAction()
     {
-        while (DetailBar != null)
+        while (DetailWindow != null)
         {
-            DetailBar.transform.position = transform.position;
-            DetailBar.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 52.5f;
+            DetailWindow.transform.position = transform.position;
+            DetailWindow.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 52.5f;
 
             yield return null;
         }
