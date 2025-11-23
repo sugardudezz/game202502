@@ -1,44 +1,65 @@
 using System;
 using UnityEngine;
 
-public class LevelNode : MonoBehaviour
+namespace Map
 {
-    public enum NodeType
+    public class LevelNode : MonoBehaviour
     {
-        Fight,
-        Explore,
-        Boss,
-    }
-    
-    public int level;
-    public NodeType type;
-    
-    public void SetValues()
-    {
-        Transform parent = transform.parent;
-        for (int i = 0; i < parent.childCount; i++)
+        public static event Action<LevelNode> OnLevelClick;
+        
+        public enum NodeType
         {
-            if (parent.GetChild(i) == this.transform)
+            Fight,
+            Explore,
+            Boss,
+        }
+    
+        public int level;
+
+        public NodeType type;
+
+        public enum NodeState
+        {
+            Completed,
+            Current,
+            Available,
+            Unlocked,
+        }
+        
+        [SerializeField]
+        private NodeState _state;
+
+        public NodeState state
+        {
+            get => _state;
+            set
             {
-                level = i + 1;
-                switch (level)
+                SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+                _state = value;
+                switch (value)
                 {
-                    case 15:
-                        type = NodeType.Explore;
+                    case NodeState.Unlocked: 
+                        sprite.color = new Color(1, 1, 1, 0f);
                         break;
-                    case 16:
-                        type = NodeType.Boss;
+                    case NodeState.Completed:
+                        sprite.color = new Color(1f, 1f, 1f, 0.5f);
                         break;
-                    default:
-                        type = (level % 4 == 0) ? NodeType.Explore : NodeType.Fight;
+                    case NodeState.Current:
+                        break;
+                    case NodeState.Available:
+                        sprite.enabled = true;
+                        sprite.color = Color.white;
                         break;
                 }
             }
         }
-    }
 
-    private void OnMouseUpAsButton()
-    {
-        GameManager.instance.mapPlayer.EnterLevel(this);
+        private void OnMouseUpAsButton()
+        {
+            if (state == NodeState.Available)
+            {
+                OnLevelClick?.Invoke(this);
+            }
+        }
     }
 }
