@@ -1,11 +1,13 @@
 using System;
+using Map.UI;
 using UnityEngine;
 
 namespace Map
 {
     public class LevelNode : MonoBehaviour
     {
-        public static event Action<LevelNode> OnLevelClick;
+        public static event Action<LevelNode> OnLevelEnter;
+        public static event Action<LevelNode> OnNodeClick;
         
         public enum NodeType
         {
@@ -42,9 +44,10 @@ namespace Map
                         sprite.color = new Color(1, 1, 1, 0f);
                         break;
                     case NodeState.Completed:
-                        sprite.color = new Color(1f, 1f, 1f, 0.5f);
+                        sprite.color = new Color(0.5f, 0.5f, 0.5f, 1f);
                         break;
                     case NodeState.Current:
+                        sprite.color = Color.white;
                         break;
                     case NodeState.Available:
                         sprite.enabled = true;
@@ -54,11 +57,26 @@ namespace Map
             }
         }
 
+        private void Start()
+        {
+            UIController.OnStartClick += StartClick;
+        }
+
+        private void OnDestroy()
+        {
+            UIController.OnStartClick -= StartClick;
+        }
+
+        private void StartClick()
+        {
+            OnLevelEnter?.Invoke(this);
+        }
+
         private void OnMouseUpAsButton()
         {
             if (state == NodeState.Available)
             {
-                OnLevelClick?.Invoke(this);
+                OnNodeClick?.Invoke(this);
             }
         }
     }

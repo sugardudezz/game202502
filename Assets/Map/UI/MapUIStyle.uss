@@ -1,0 +1,21 @@
+Button {
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 0, 0);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+}
+
+Button:active {
+    --pressed: rgb(220, 220, 220);
+    -unity-background-image-tint-color: var(--pressed);
+    border-left-color: var(--pressed);
+    border-right-color: var(--pressed);
+    border-top-color: var(--pressed);
+    border-bottom-color: var(--pressed);
+}

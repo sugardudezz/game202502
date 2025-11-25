@@ -1,12 +1,11 @@
 using System;
-using Map;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public int currentLevel = 0;
+    public int currentLevel;
     
     public static event Action<string> OnSceneChange;
     
@@ -23,8 +22,15 @@ public class GameManager : MonoBehaviour
 
     public void ChangeScene(string sceneName)
     {
-        sceneName = "Scenes/" + sceneName;
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene("Scenes/" + sceneName);
         OnSceneChange?.Invoke(sceneName);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            ChangeScene("Map");
+        }
     }
 }

@@ -1,29 +1,28 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Map
 {
     public class MapPlayer : MonoBehaviour
     {
-        Vector3 endPos;
-        Vector3 direction;
+        private Vector3 endPos;
+        private Vector3 direction;
         
         private bool moving;
-        private LevelNode currentNode;
+        private static Vector3 lastPos = new (-6, -1, 0);
 
-        void Start()
+        private void Start()
         {
+            transform.position = lastPos;
             moving = false;
-            transform.position = (GameManager.instance.currentLevel != 0) ? currentNode.transform.position : new Vector3(-6, -1, 0);
-            LevelNode.OnLevelClick += EnterLevel;
+            LevelNode.OnLevelEnter += EnterLevel;
+            Debug.Log("star");
         }
 
         private void OnDestroy()
         {
-            LevelNode.OnLevelClick -= EnterLevel;
+            LevelNode.OnLevelEnter -= EnterLevel;
         }
 
         private IEnumerator _MovePlayer(Vector3 targetPos, string targetScene)
@@ -43,30 +42,28 @@ namespace Map
 
         private void EnterLevel(LevelNode node)
         {
+            if (node.state != LevelNode.NodeState.Available) return;
             if (moving) return; // 이미 이동 중일 시 노드 클릭 무시
             moving = true;
-            if (node.state == LevelNode.NodeState.Available)
+            Vector3 targetPos = node.transform.position;
+            String targetScene;
+            switch(node.type)
             {
-                Vector3 targetPos = node.transform.position;
-                String targetScene;
-                switch(node.type)
-                {
-                    case LevelNode.NodeType.Fight:
-                        targetScene = "Battle";
-                        break;
-                    case LevelNode.NodeType.Boss:
-                        targetScene = "Battle";
-                        break;
-                    case LevelNode.NodeType.Explore:
-                        targetScene = "Main";
-                        break;
-                    default:
-                        targetScene = "Main";
-                        break;
-                }
-                currentNode = node;
-                StartCoroutine(_MovePlayer(targetPos, targetScene));
+                case LevelNode.NodeType.Fight:
+                    targetScene = "Battle";
+                    break;
+                case LevelNode.NodeType.Boss:
+                    targetScene = "Battle";
+                    break;
+                case LevelNode.NodeType.Explore:
+                    targetScene = "Main";
+                    break;
+                default:
+                    Debug.Log("This node type has undefined scene target!");
+                    return;
             }
+            StartCoroutine(_MovePlayer(targetPos, targetScene));
+            lastPos = targetPos;
         }
     }
 }
