@@ -366,7 +366,7 @@ public class BattleManager : MonoBehaviour
                     pDmgDef += (int)(player.currentDEF * 1.0f);
                     if (player.currEffectList.Exists(item => item.effectData.ID == (int)EffectID.Reinforce_Defend))
                     {
-                        pDmgDef += (int)(player.currentDEF * 0.75f);
+                        pDmgDef += (int)(player.currentDEF * (player.currEffectList.Find(item => item.effectData.ID == (int)EffectID.Reinforce_Defend).effectSize * 0.01));
                         player.currEffectList.Remove(player.currEffectList.Find(item => item.effectData.ID == (int)EffectID.Reinforce_Defend));
                     }
                     break;
@@ -375,13 +375,13 @@ public class BattleManager : MonoBehaviour
                     pDmgDef += (int)(player.currentDEF * 1.5f);
                     if (player.currEffectList.Exists(item => item.effectData.ID == (int)EffectID.Reinforce_Defend))
                     {
-                        pDmgDef += (int)(player.currentDEF * 0.75f);
+                        pDmgDef += (int)(player.currentDEF * (player.currEffectList.Find(item => item.effectData.ID == (int)EffectID.Reinforce_Defend).effectSize * 0.01));
                         player.currEffectList.Remove(player.currEffectList.Find(item => item.effectData.ID == (int)EffectID.Reinforce_Defend));
                     }
                     break;
 
                 case (int)PlayerActionID.Special1:
-                    player.TakeEffect(effectDataList[(int)EffectID.Reinforce_Defend], (int)(player.currentDEF * 0.75f));
+                    player.TakeEffect(effectDataList[(int)EffectID.Reinforce_Defend], 75);
                     break;
 
                 case (int)PlayerActionID.Charged_Special1:
