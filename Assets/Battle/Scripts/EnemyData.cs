@@ -7,10 +7,9 @@ public class EnemyData : ScriptableObject
     public int ID;
     public Sprite enemyIcon;
     public string enemyName;
-    public int baseHP;
-    public int baseSP;
+    public int baseMHP;
+    public int baseMSP;
     public int baseATK;
     public int baseDEF;
-
     public List<EnemyActionData> actionDataList;
 }

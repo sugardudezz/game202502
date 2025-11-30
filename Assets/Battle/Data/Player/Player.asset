@@ -15,8 +15,8 @@ MonoBehaviour:
   ID: 0
   playerIcon: {fileID: 7482667652216324306, guid: 77e0dedd34afe5f4b861487baed963f6, type: 3}
   playerName: "\uD50C\uB808\uC774\uC5B4"
-  baseHP: 80
-  baseSP: 6
+  baseMHP: 80
+  baseMSP: 6
   baseATK: 8
   baseDEF: 8
   actionDataList:

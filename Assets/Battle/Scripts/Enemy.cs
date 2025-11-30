@@ -6,19 +6,18 @@ public class Enemy : MonoBehaviour
     public int ID;
     public Sprite enemyIcon;
     public string enemyName;
-    public int baseHP;
-    public int baseSP;
+    public int baseMHP;
+    public int baseMSP;
     public int baseATK;
     public int baseDEF;
+    public List<EnemyActionData> actionDataList;
 
-    public int maxHP;
-    public int maxSP;
+    public int currentMHP;
+    public int currentMSP;
     public int currentHP;
     public int currentSP;
     public int currentATK;
     public int currentDEF;
-
-    public List<EnemyActionData> actionDataList;
 
     public class CurrEffect
     {
@@ -44,23 +43,22 @@ public class Enemy : MonoBehaviour
         ID = data.ID;
         enemyIcon = data.enemyIcon;
         enemyName = data.enemyName;
-        baseHP = data.baseHP;
-        baseSP = data.baseSP;
+        baseMHP = data.baseMHP;
+        baseMSP = data.baseMSP;
         baseATK = data.baseATK;
         baseDEF = data.baseDEF;
+        actionDataList = data.actionDataList;
 
-        GetComponent<SpriteRenderer>().sprite = enemyIcon;
-
-        maxHP = baseHP;
-        maxSP = baseSP;
-        currentHP = maxHP;
-        currentSP = maxSP;
+        currentMHP = baseMHP;
+        currentMSP = baseMSP;
+        currentHP = baseMHP;
+        currentSP = baseMSP;
         currentATK = baseATK;
         currentDEF = baseDEF;
 
-        actionDataList = data.actionDataList;
-
         currEffectList = new List<CurrEffect>();
+
+        GetComponent<SpriteRenderer>().sprite = enemyIcon;
     }
 
     public void TakeDamage(int damage, int stanceDamage)
@@ -71,7 +69,7 @@ public class Enemy : MonoBehaviour
 
     public void TakeCuring(int curing)
     {
-        currentHP = Mathf.Min(currentHP + curing, maxHP);
+        currentHP = Mathf.Min(currentHP + curing, currentMHP);
     }
 
     public void TakeEffect(EffectData effectData, int effectSize)

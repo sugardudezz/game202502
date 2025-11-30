@@ -46,12 +46,12 @@ public class EnemyStatus : MonoBehaviour
         nameText.text = enemy.enemyName;
         ATKPowText.text = "<sprite=1> " + enemy.currentATK;
         DEFPowText.text = "<sprite=0> " + enemy.currentDEF;
-        healthText.text = enemy.currentHP + "/" + enemy.maxHP;
-        healthRate.fillAmount = (float)enemy.currentHP / enemy.maxHP;
-        stanceRate.fillAmount = (float)enemy.currentSP / enemy.maxSP;
-        for (int i = 1; i < enemy.maxSP; i++)
+        healthText.text = enemy.currentHP + "/" + enemy.currentMHP;
+        healthRate.fillAmount = (float)enemy.currentHP / enemy.currentMHP;
+        stanceRate.fillAmount = (float)enemy.currentSP / enemy.currentMSP;
+        for (int i = 1; i < enemy.currentMSP; i++)
         {
-            divideList.Add(Instantiate(prefabDivide, new Vector3(stanceRate.rectTransform.rect.width / enemy.maxSP * i, 0, 0), Quaternion.identity));
+            divideList.Add(Instantiate(prefabDivide, new Vector3(stanceRate.rectTransform.rect.width / enemy.currentMSP * i, 0, 0), Quaternion.identity));
             divideList[^1].transform.SetParent(stanceRate.transform, false);
         }
         for (int i = 0; i < enemy.currEffectList.Count; i++)

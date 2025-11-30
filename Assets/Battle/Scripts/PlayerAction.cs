@@ -40,11 +40,11 @@ public class PlayerAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     }
 
-    public void Init(Player player)
+    public void Init(GameManager.PlayerInfo info)
     {
         isEnabled = true;
 
-        actionDataList = player.actionDataList;
+        actionDataList = info.actionDataList;
 
         AssignAction(actionDataList[0]);
     }
@@ -56,9 +56,9 @@ public class PlayerAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         actionIcon = data.actionIcon;
         actionName = data.actionName;
         actionDesc = data.actionDesc;
-        GetComponent<Image>().sprite = actionIcon;
-
         originData = data;
+
+        GetComponent<Image>().sprite = actionIcon;
 
         OnActionAssigned?.Invoke();
 

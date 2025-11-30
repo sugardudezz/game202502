@@ -30,7 +30,7 @@ public class PlayerStatus : MonoBehaviour
 
     }
 
-    public void Init(Player player)
+    public void Init(GameManager.PlayerInfo info)
     {
         foreach (var divide in divideList)
         {
@@ -43,22 +43,22 @@ public class PlayerStatus : MonoBehaviour
         divideList.Clear();
         effectList.Clear();
 
-        nameText.text = player.playerName;
-        ATKPowText.text = "<sprite=1> " + player.currentATK;
-        DEFPowText.text = "<sprite=0> " + player.currentDEF;
-        healthText.text = player.currentHP + "/" + player.maxHP;
-        healthRate.fillAmount = (float)player.currentHP / player.maxHP;
-        stanceRate.fillAmount = (float)player.currentSP / player.maxSP;
-        for (int i = 1; i < player.maxSP; i++)
+        nameText.text = info.playerName;
+        ATKPowText.text = "<sprite=1> " + info.currentATK;
+        DEFPowText.text = "<sprite=0> " + info.currentDEF;
+        healthText.text = info.currentHP + "/" + info.currentMHP;
+        healthRate.fillAmount = (float)info.currentHP / info.currentMHP;
+        stanceRate.fillAmount = (float)info.currentSP / info.currentMSP;
+        for (int i = 1; i < info.currentMSP; i++)
         {
             divideList.Add(Instantiate(prefabDivide, stanceRate.transform, false));
-            divideList[^1].GetComponent<RectTransform>().anchoredPosition = new Vector2(stanceRate.rectTransform.rect.width / player.maxSP * i, 0);
+            divideList[^1].GetComponent<RectTransform>().anchoredPosition = new Vector2(stanceRate.rectTransform.rect.width / info.currentMSP * i, 0);
         }
-        for (int i = 0; i < player.currEffectList.Count; i++)
+        for (int i = 0; i < info.currentEffectList.Count; i++)
         {
             effectList.Add(Instantiate(prefabEffect, transform.GetChild(0), false));
             effectList[^1].GetComponent<RectTransform>().anchoredPosition = Vector2.right * (475 + 75 * (effectList.Count - 1));
-            effectList[^1].GetComponent<Effect>().Init(player.currEffectList[i].effectData, player.currEffectList[i].effectSize);
+            effectList[^1].GetComponent<Effect>().Init(info.currentEffectList[i].effectData, info.currentEffectList[i].effectSize);
         }
     }
 }

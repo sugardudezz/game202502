@@ -36,8 +36,8 @@ namespace Map
             }
 
             moving = false;
-            GameManager.instance.currentLevel++;
-            GameManager.instance.ChangeScene(targetScene);
+            GameManager.Instance.currentLevel++;
+            GameManager.Instance.ChangeScene(targetScene);
         }
 
         private void EnterLevel(LevelNode node)

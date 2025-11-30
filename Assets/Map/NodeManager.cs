@@ -53,15 +53,15 @@ namespace Map
             {
                 LevelNode child = transform.GetChild(i).gameObject.GetComponent<LevelNode>();
                 
-                if (child.level < GameManager.instance.currentLevel)
+                if (child.level < GameManager.Instance.currentLevel)
                 {
                     child.state = LevelNode.NodeState.Completed;
                 } 
-                else if (child.level == GameManager.instance.currentLevel)
+                else if (child.level == GameManager.Instance.currentLevel)
                 {
                     child.state = LevelNode.NodeState.Current;
                 }
-                else if (child.level == GameManager.instance.currentLevel + 1)
+                else if (child.level == GameManager.Instance.currentLevel + 1)
                 {
                     child.state = LevelNode.NodeState.Available;
                 }

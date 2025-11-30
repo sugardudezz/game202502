@@ -3,29 +3,23 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int ID;
-    public Sprite playerIcon;
-    public string playerName;
-    public int baseHP;
-    public int baseSP;
-    public int baseATK;
-    public int baseDEF;
+    public GameManager.PlayerInfo playerInfo;
+    //public int ID;
+    //public Sprite playerIcon;
+    //public string playerName;
+    //public int baseMHP;
+    //public int baseMSP;
+    //public int baseATK;
+    //public int baseDEF;
+    //public List<PlayerActionData> actionDataList;
 
-    public int maxHP;
-    public int maxSP;
-    public int currentHP;
-    public int currentSP;
-    public int currentATK;
-    public int currentDEF;
+    //public int currentMHP;
+    //public int currentMSP;
+    //public int currentHP;
+    //public int currentSP;
+    //public int currentATK;
+    //public int currentDEF;
 
-    public List<PlayerActionData> actionDataList;
-    
-    public class CurrEffect
-    {
-        public EffectData effectData;
-        public int effectSize;
-    }
-    public List<CurrEffect> currEffectList;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,45 +33,28 @@ public class Player : MonoBehaviour
 
     }
 
-    public void Init(PlayerData data)
+    public void Init(GameManager.PlayerInfo info)
     {
-        ID = data.ID;
-        playerIcon = data.playerIcon;
-        playerName = data.playerName;
-        baseHP = data.baseHP;
-        baseSP = data.baseSP;
-        baseATK = data.baseATK;
-        baseDEF = data.baseDEF;
+        playerInfo = info;
 
-        GetComponent<SpriteRenderer>().sprite = playerIcon;
-
-        maxHP = baseHP;
-        maxSP = baseSP;
-        currentHP = maxHP;
-        currentSP = maxSP;
-        currentATK = baseATK;
-        currentDEF = baseDEF;
-
-        actionDataList = data.actionDataList;
-
-        currEffectList = new List<CurrEffect>();
+        GetComponent<SpriteRenderer>().sprite = playerInfo.playerIcon;
     }
 
     public void TakeDamage(int damage, int stanceDamage)
     {
-        currentHP = Mathf.Max(0, currentHP - damage);
-        currentSP = Mathf.Max(0, currentSP - stanceDamage);
+        playerInfo.currentHP = Mathf.Max(0, playerInfo.currentHP - damage);
+        playerInfo.currentSP = Mathf.Max(0, playerInfo.currentSP - stanceDamage);
     }
 
     public void TakeCuring(int curing)
     {
-        currentHP = Mathf.Min(currentHP + curing, maxHP);
+        playerInfo.currentHP = Mathf.Min(playerInfo.currentHP + curing, playerInfo.currentMHP);
     }
 
     public void TakeEffect(EffectData effectData, int effectSize)
     {
-        currEffectList.Add(new CurrEffect());
-        currEffectList[^1].effectData = effectData;
-        currEffectList[^1].effectSize = effectSize;
+        playerInfo.currentEffectList.Add(new GameManager.PlayerInfo.CurrentEffect());
+        playerInfo.currentEffectList[^1].effectData = effectData;
+        playerInfo.currentEffectList[^1].effectSize = effectSize;
     }
 }

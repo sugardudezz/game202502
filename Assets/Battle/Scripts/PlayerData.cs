@@ -7,10 +7,9 @@ public class PlayerData : ScriptableObject
     public int ID;
     public Sprite playerIcon;
     public string playerName;
-    public int baseHP;
-    public int baseSP;
+    public int baseMHP;
+    public int baseMSP;
     public int baseATK;
     public int baseDEF;
-
     public List<PlayerActionData> actionDataList;
 }
