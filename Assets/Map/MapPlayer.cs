@@ -65,5 +65,18 @@ namespace Map
             StartCoroutine(_MovePlayer(targetPos, targetScene));
             lastPos = targetPos;
         }
+        /*
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.A))
+            {
+                transform.Translate(Vector3.left * (Time.deltaTime * 10f));
+            } 
+            else if (Input.GetKey(KeyCode.D))
+            {
+                transform.Translate(Vector3.right * (Time.deltaTime * 10f));
+            }
+        }
+        */
     }
 }
