@@ -40,7 +40,7 @@ namespace Map.UI
 
         private void OpenTab(LevelNode node)
         {
-            String nodeType;
+            string nodeType;
             switch (node.type)
             {
                 case LevelNode.NodeType.Fight:
@@ -57,6 +57,38 @@ namespace Map.UI
                     break;
             }
             levelName.text = $"{node.level} - {nodeType}";
+
+            string levelDesc;
+            switch (GameManager.Instance.currentLevel)
+            {
+                case 12:
+                    levelDesc = "출현 몬스터: " + "-" + "<br><br>보상: 선택";
+                    break;
+                case 13:
+                    levelDesc = "출현 몬스터: " + GameManager.Instance.enemyDataList[GameManager.Instance.currentLevel].Name;
+                    break;
+                default:
+                    switch (GameManager.Instance.currentLevel % 3)
+                    {
+                        case 0:
+                            levelDesc = "출현 몬스터: " + GameManager.Instance.enemyDataList[GameManager.Instance.currentLevel].Name + "<br><br>보상: 방어력 + 1";
+                            break;
+                        case 1:
+                            levelDesc = "출현 몬스터: " + GameManager.Instance.enemyDataList[GameManager.Instance.currentLevel].Name + "<br><br>보상: 방어력 + 1";
+                            break;
+                        case 2:
+                            if (node.type == LevelNode.NodeType.Fight)
+                                levelDesc = "출현 몬스터: " + GameManager.Instance.enemyDataList[GameManager.Instance.currentLevel].Name + "<br><br>보상: 기력 + 1";
+                            else
+                                levelDesc = "출현 몬스터: " + "-" + "<br><br>보상: 선택";
+                            break;
+                        default:
+                            levelDesc = "";
+                            break;
+                    }
+                    break;
+            }
+            levelDescription.text = levelDesc;
             
             document.style.display = DisplayStyle.Flex;
         }

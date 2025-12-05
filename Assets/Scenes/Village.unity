@@ -401,7 +401,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1274758193}
-  - component: {fileID: 1274758192}
+  - component: {fileID: 1274758194}
   m_Layer: 0
   m_Name: VillageManager
   m_TagString: Untagged
@@ -409,18 +409,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1274758192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1274758191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca0109481ee0c3f40a6abc7919c6a28f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneChanger
 --- !u!4 &1274758193
 Transform:
   m_ObjectHideFlags: 0
@@ -430,12 +418,25 @@ Transform:
   m_GameObject: {fileID: 1274758191}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.02694, y: -0.26372, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1274758194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274758191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51aad5efe495fab489ed2460a1473d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VillageManager
+  hoverScale: {x: -1.2, y: -1.2, z: 1.2}
 --- !u!1 &1637201359
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,7 +448,7 @@ GameObject:
   - component: {fileID: 1637201361}
   - component: {fileID: 1637201360}
   m_Layer: 0
-  m_Name: village_background_0
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -538,7 +539,6 @@ GameObject:
   - component: {fileID: 1731256856}
   - component: {fileID: 1731256855}
   - component: {fileID: 1731256854}
-  - component: {fileID: 1731256853}
   - component: {fileID: 1731256852}
   m_Layer: 5
   m_Name: Forest
@@ -554,18 +554,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731256850}
-  m_LocalRotation: {x: 0, y: 0, z: 0.026176924, w: 0.99965733}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: -1, y: -1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1996167903}
   m_Father: {fileID: 463379134}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 446.12, y: -176.41}
-  m_SizeDelta: {x: 203.04, y: 172.25}
+  m_AnchoredPosition: {x: 450, y: -180}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1731256852
 MonoBehaviour:
@@ -584,13 +584,13 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1731256853}
-          m_TargetAssemblyTypeName: ButtonScaler, Assembly-CSharp
+        - m_Target: {fileID: 1274758194}
+          m_TargetAssemblyTypeName: VillageManager, Assembly-CSharp
           m_MethodName: SetHoverScale
-          m_Mode: 1
+          m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_ObjectArgument: {fileID: 1731256850}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -600,31 +600,18 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1731256853}
-          m_TargetAssemblyTypeName: ButtonScaler, Assembly-CSharp
+        - m_Target: {fileID: 1274758194}
+          m_TargetAssemblyTypeName: VillageManager, Assembly-CSharp
           m_MethodName: SetOriginalScale
-          m_Mode: 1
+          m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_ObjectArgument: {fileID: 1731256850}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &1731256853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1731256850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfb71c1b3408dd447b396028fbd0da7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ButtonScaler
-  hoverScale: {x: -1.2, y: -1.2, z: 1.2}
 --- !u!114 &1731256854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,8 +656,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1274758192}
-        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+      - m_Target: {fileID: 1274758194}
+        m_TargetAssemblyTypeName: VillageManager, Assembly-CSharp
         m_MethodName: ChangeScene
         m_Mode: 5
         m_Arguments:
@@ -744,17 +731,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1996167902}
-  m_LocalRotation: {x: 0, y: 0, z: -0.026176924, w: 0.99965733}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: -1, y: -1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1731256851}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -59.999992, y: -45}
-  m_SizeDelta: {x: -120.000015, y: -90}
+  m_AnchoredPosition: {x: -45, y: -50}
+  m_SizeDelta: {x: 200, y: -90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1996167904
 MonoBehaviour:
@@ -779,7 +766,7 @@ MonoBehaviour:
   m_text: "\uC232"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 719b7b63d7ff6b44e99476001dd2150e, type: 2}
-  m_sharedMaterial: {fileID: 2696176307911058491, guid: 719b7b63d7ff6b44e99476001dd2150e, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 3307d402a0643344c837cdf538284a01, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

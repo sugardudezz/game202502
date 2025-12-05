@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Effect
   m_EditorClassIdentifier: Assembly-CSharp::EffectData
   ID: 0
-  effectIcon: {fileID: 6624704220539968654, guid: 2b4bdffe84e8a974692cb28201dd8f07, type: 3}
+  Icon: {fileID: 6624704220539968654, guid: 2b4bdffe84e8a974692cb28201dd8f07, type: 3}

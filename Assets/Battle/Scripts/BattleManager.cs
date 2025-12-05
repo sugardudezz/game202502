@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
@@ -10,10 +13,12 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject scrollView;
     [SerializeField] private GameObject content;
+    [SerializeField] private List<Sprite> backgroundList;
+    [SerializeField] private GameObject background;
 
-    [Header("Enemy Data Assign")]
-    [SerializeField] private List<EnemyData> enemyDataList;
-    [SerializeField] private int enemyID;
+    [Header("Player/Enemy Info Container")]
+    [SerializeField] private GameManager.PlayerInfo player;
+    [SerializeField] private Enemy.EnemyInfo enemy;
 
     [Header("Player/Enemy Icon&Status Prefab Assign")]
     [SerializeField] private GameObject prefabPlayer;
@@ -28,10 +33,10 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private GameObject enemyStatusObject;
 
     [Header("Player/Enemy Script")]
-    [SerializeField] private Player player;
-    [SerializeField] private PlayerStatus playerStatus;
-    [SerializeField] private Enemy enemy;
-    [SerializeField] private EnemyStatus enemyStatus;
+    [SerializeField] private Player playerScript;
+    [SerializeField] private PlayerStatus playerStatusScript;
+    [SerializeField] private Enemy enemyScript;
+    [SerializeField] private EnemyStatus enemyStatusScript;
 
     [Header("Action Holder/Action Prefab Assign")]
     [SerializeField] private GameObject prefabActionHolder;
@@ -49,6 +54,12 @@ public class BattleManager : MonoBehaviour
 
     [Header("Turn Switch Assign")]
     [SerializeField] private GameObject turnSwitch;
+
+    [Header("Result Assign")]
+    [SerializeField] private GameObject result;
+
+    public Vector3 originalScale;
+    public Vector3 hoverScale;
 
     [SerializeField] private enum PlayerActionID
     {
@@ -68,17 +79,29 @@ public class BattleManager : MonoBehaviour
         Defend,
         Charged_Defend,
         Special1,
-        Charged_Special1
+        Charged_Special1,
+        Special2,
+        Charged_Special2,
+        Special3,
+        Charged_Special3
     }
     [SerializeField] private enum EffectID
     {
         Break,
-        Reinforce_Defend
+        Attack_Buff,
+        Defend_Buff,
+        ATK_Buff
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        player = GameManager.Instance.player;
+
+        background.GetComponent<Image>().sprite = backgroundList[GameManager.Instance.currentLevel - 1];
+
+        result.SetActive(false);
+
         BattleStart();
     }
 
@@ -88,42 +111,26 @@ public class BattleManager : MonoBehaviour
 
     }
 
-    //void RunStart()
-    //{
-    //    playerObject = Instantiate(prefabPlayer, new Vector3(-5, 0, 0), Quaternion.identity);
-    //    player = playerObject.GetComponent<Player>();
-    //    player.Init(GameManager.Instance.playerInfo);
-
-    //    playerStatusObject = Instantiate(prefabPlayerStatus, new Vector3(-500, -100, 0), Quaternion.identity);
-    //    playerStatusObject.transform.SetParent(canvas.transform, false);
-    //    playerStatus = playerStatusObject.GetComponent<PlayerStatus>();
-    //    playerStatus.Init(player);
-
-
-
-    //    BattleStart();
-    //}
-
     void BattleStart()
     {
-        playerObject = Instantiate(prefabPlayer, new Vector3(-5, 0, 0), Quaternion.identity);
-        player = playerObject.GetComponent<Player>();
-        player.Init(GameManager.Instance.playerInfo);
+        playerObject = Instantiate(prefabPlayer, new Vector3(-5f, 1f, 0), Quaternion.identity);
+        playerScript = playerObject.GetComponent<Player>();
+        playerScript.Init();
 
-        playerStatusObject = Instantiate(prefabPlayerStatus, new Vector3(-500, -100, 0), Quaternion.identity);
+        playerStatusObject = Instantiate(prefabPlayerStatus, new Vector3(-500, -150, 0), Quaternion.identity);
         playerStatusObject.transform.SetParent(canvas.transform, false);
-        playerStatus = playerStatusObject.GetComponent<PlayerStatus>();
-        playerStatus.Init(player.playerInfo);
+        playerStatusScript = playerStatusObject.GetComponent<PlayerStatus>();
+        playerStatusScript.Init(player);
 
-        enemyID = GameManager.Instance.currentLevel;
-        enemyObject = Instantiate(prefabEnemy, new Vector3(5, 0, 0), Quaternion.identity);
-        enemy = enemyObject.GetComponent<Enemy>();
-        enemy.Init(enemyDataList[enemyID]);
+        enemyObject = Instantiate(prefabEnemy, new Vector3(5f, 1, 0), Quaternion.identity);
+        enemyScript = enemyObject.GetComponent<Enemy>();
+        enemyScript.Init(GameManager.Instance.enemyDataList[GameManager.Instance.currentLevel - 1]);
+        enemy = enemyScript.enemy;
 
-        enemyStatusObject = Instantiate(prefabEnemyStatus, new Vector3(500, -100, 0), Quaternion.identity);
+        enemyStatusObject = Instantiate(prefabEnemyStatus, new Vector3(500, -150, 0), Quaternion.identity);
         enemyStatusObject.transform.SetParent(canvas.transform, false);
-        enemyStatus = enemyStatusObject.GetComponent<EnemyStatus>();
-        enemyStatus.Init(enemy);
+        enemyStatusScript = enemyStatusObject.GetComponent<EnemyStatus>();
+        enemyStatusScript.Init(enemy);
 
         TurnStart();
     }
@@ -145,25 +152,36 @@ public class BattleManager : MonoBehaviour
         }
         actionHolderList.Clear();
         actionList.Clear();
-        for (int i = player.playerInfo.currentEffectList.Count - 1; i >= 0; i--)
-        {
-            if (player.playerInfo.currentEffectList[i].effectData.ID == (int)EffectID.Break)
-            {
-                player.playerInfo.currentEffectList.RemoveAt(i);
-            }
-        }
-        for (int i = enemy.currEffectList.Count - 1; i >= 0; i--)
-        {
-            if (enemy.currEffectList[i].effectData.ID == (int)EffectID.Break)
-            {
-                enemy.currEffectList.RemoveAt(i);
-            }
-        }
-        player.playerInfo.currentSP = player.playerInfo.currentMSP;
-        enemy.currentSP = enemy.currentMSP;
 
-        int playerMaxAP = player.playerInfo.currentMSP;
-        int enemyMaxAP = enemy.currentMSP;
+        playerScript.AdjustStat();
+        enemyScript.AdjustStat();
+
+        for (int i = player.currentEffectList.Count - 1; i >= 0; i--)
+        {
+            if (player.currentEffectList[i].effectData.ID == (int)EffectID.Break)
+            {
+                player.currentEffectList.RemoveAt(i);
+            }
+        }
+        for (int i = enemy.currentEffectList.Count - 1; i >= 0; i--)
+        {
+            if (enemy.currentEffectList[i].effectData.ID == (int)EffectID.Break)
+            {
+                enemy.currentEffectList.RemoveAt(i);
+            }
+            if (enemy.currentEffectList[i].effectData.ID == (int)EffectID.ATK_Buff)
+            {
+                enemy.ATK += enemy.currentEffectList[i].effectSize;
+            }
+        }
+        player.CSP = player.MSP;
+        enemy.CSP = enemy.MSP;
+
+        playerStatusScript.Init(player);
+        enemyStatusScript.Init(enemy);
+
+        int playerMaxAP = player.MSP;
+        int enemyMaxAP = enemy.MSP;
         playerAP = playerMaxAP;
         enemyAP = enemyMaxAP;
         for (int i = 0; i < Mathf.Max(playerMaxAP, enemyMaxAP); i++)
@@ -172,7 +190,7 @@ public class BattleManager : MonoBehaviour
 
             actionList.Add(Instantiate(prefabPlayerAction, new Vector3(-50, 0, 0), Quaternion.identity));
             actionList[^1].transform.SetParent(actionHolderList[^1].transform, false);
-            actionList[^1].GetComponent<PlayerAction>().Init(player.playerInfo);
+            actionList[^1].GetComponent<PlayerAction>().Init(player);
             if (i < playerMaxAP)
             {
                 actionList[^1].GetComponent<PlayerAction>().OnActionAssigned += () =>
@@ -225,8 +243,6 @@ public class BattleManager : MonoBehaviour
                 actionList[^1].SetActive(false);
             }
         }
-        playerStatus.Init(player.playerInfo);
-        enemyStatus.Init(enemy);
 
         StartCoroutine(PlanningTurn());
     }
@@ -254,14 +270,17 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(ClashingTurn());
     }
 
-    void BattleEnd()
+    // 마우스 진입 시 호출
+    public void SetHoverScale(GameObject target)
     {
-
+        originalScale = target.transform.localScale;
+        target.transform.localScale = hoverScale;
     }
 
-    void RunEnd()
+    // 마우스 이탈 시 호출
+    public void SetOriginalScale(GameObject target)
     {
-
+        target.transform.localScale = originalScale;
     }
 
     IEnumerator PlanningTurn()
@@ -313,102 +332,130 @@ public class BattleManager : MonoBehaviour
             int pCuring = 0;
             int eCuring = 0;
 
-            for (int j = player.playerInfo.currentEffectList.Count - 1; j >= 0; j--)
+            playerScript.AdjustStat();
+            enemyScript.AdjustStat();
+
+            for (int j = player.currentEffectList.Count - 1; j >= 0; j--)
             {
-                if (player.playerInfo.currentEffectList[j].effectSize == 0)
+                if (player.currentEffectList[j].effectSize == 0)
                 {
-                    if (player.playerInfo.currentEffectList[j].effectData.ID == (int)EffectID.Break)
+                    if (player.currentEffectList[j].effectData.ID == (int)EffectID.Break)
                     {
-                        player.playerInfo.currentSP = player.playerInfo.currentMSP;
+                        player.CSP = player.MSP;
                     }
-                    player.playerInfo.currentEffectList.RemoveAt(j);
+                    player.currentEffectList.RemoveAt(j);
                 }
                 else
                 {
-                    if (player.playerInfo.currentEffectList[j].effectData.ID == (int)EffectID.Break)
+                    if (player.currentEffectList[j].effectData.ID == (int)EffectID.Break)
                     {
                         pTakenDamageRate += 0.5f;
-                        player.playerInfo.currentEffectList[j].effectSize -= 1;
+                        player.currentEffectList[j].effectSize -= 1;
                     }
                 }
             }
-
-            for (int j = enemy.currEffectList.Count - 1; j >= 0; j--)
+            for (int j = enemy.currentEffectList.Count - 1; j >= 0; j--)
             {
-                if (enemy.currEffectList[j].effectSize == 0)
+                if (enemy.currentEffectList[j].effectSize == 0)
                 {
-                    if (enemy.currEffectList[j].effectData.ID == (int)EffectID.Break)
+                    if (enemy.currentEffectList[j].effectData.ID == (int)EffectID.Break)
                     {
-                        enemy.currentSP = enemy.currentMSP;
+                        enemy.CSP = enemy.MSP;
                     }
-                    enemy.currEffectList.RemoveAt(j);
+                    enemy.currentEffectList.RemoveAt(j);
                 }
                 else
                 {
-                    if (enemy.currEffectList[j].effectData.ID == (int)EffectID.Break)
+                    if (enemy.currentEffectList[j].effectData.ID == (int)EffectID.Break)
                     {
                         eTakenDamageRate += 0.5f;
-                        enemy.currEffectList[j].effectSize -= 1;
+                        enemy.currentEffectList[j].effectSize -= 1;
+                    }
+                    if (enemy.currentEffectList[j].effectData.ID == (int)EffectID.ATK_Buff)
+                    {
+                        enemy.ATK += enemy.currentEffectList[j].effectSize;
                     }
                 }
             }
 
-            playerStatus.Init(player.playerInfo);
-            enemyStatus.Init(enemy);
+            playerStatusScript.Init(player);
+            enemyStatusScript.Init(enemy);
+
+            yield return new WaitForSeconds(0.25f);
 
             switch (actionList[i].GetComponent<PlayerAction>().actionID)
             {
                 case (int)PlayerActionID.Attack:
-                    pDamage += (int)(player.playerInfo.currentATK * 1.0f);
+                    pDamage += Mathf.RoundToInt(player.ATK * 1.0f);
                     break;
 
                 case (int)PlayerActionID.Charged_Attack:
-                    pDamage += (int)(player.playerInfo.currentATK * 1.5f);
+                    pDamage += Mathf.RoundToInt(player.ATK * 1.5f);
                     break;
 
                 case (int)PlayerActionID.Defend:
-                    pDmgDef += (int)(player.playerInfo.currentDEF * 1.0f);
-                    if (player.playerInfo.currentEffectList.Exists(item => item.effectData.ID == (int)EffectID.Reinforce_Defend))
+                    pDmgDef += Mathf.RoundToInt(player.DEF * 1.0f);
+                    while (player.currentEffectList.Exists(item => item.effectData.ID == (int)EffectID.Defend_Buff))
                     {
-                        pDmgDef += (int)(player.playerInfo.currentDEF * (player.playerInfo.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Reinforce_Defend).effectSize * 0.01));
-                        player.playerInfo.currentEffectList.Remove(player.playerInfo.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Reinforce_Defend));
+                        pDmgDef += Mathf.RoundToInt(player.DEF * (player.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Defend_Buff).effectSize * 0.01f));
+                        player.currentEffectList.Remove(player.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Defend_Buff));
                     }
                     break;
 
                 case (int)PlayerActionID.Charged_Defend:
-                    pDmgDef += (int)(player.playerInfo.currentDEF * 1.5f);
-                    if (player.playerInfo.currentEffectList.Exists(item => item.effectData.ID == (int)EffectID.Reinforce_Defend))
+                    pDmgDef += Mathf.RoundToInt(player.DEF * 1.5f);
+                    while (player.currentEffectList.Exists(item => item.effectData.ID == (int)EffectID.Defend_Buff))
                     {
-                        pDmgDef += (int)(player.playerInfo.currentDEF * (player.playerInfo.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Reinforce_Defend).effectSize * 0.01));
-                        player.playerInfo.currentEffectList.Remove(player.playerInfo.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Reinforce_Defend));
+                        pDmgDef += Mathf.RoundToInt(player.DEF * (player.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Defend_Buff).effectSize * 0.01f));
+                        player.currentEffectList.Remove(player.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Defend_Buff));
                     }
                     break;
 
                 case (int)PlayerActionID.Special1:
-                    player.TakeEffect(effectDataList[(int)EffectID.Reinforce_Defend], 75);
+                    playerScript.TakeEffect(effectDataList[(int)EffectID.Defend_Buff], 100);
                     break;
 
                 case (int)PlayerActionID.Charged_Special1:
                     pIsPiercing = true;
-                    pDamage = (int)(player.playerInfo.currentATK * 1.0f);
+                    pDamage = Mathf.RoundToInt(player.ATK * 1.0f);
                     break;
             }
             switch (actionList[i + 1].GetComponent<EnemyAction>().actionID)
             {
                 case (int)EnemyActionID.Attack:
-                    eDamage += (int)(enemy.currentATK * 1.0f);
+                    eDamage += Mathf.RoundToInt(enemy.ATK * 1.0f);
+                    while (enemy.currentEffectList.Exists(item => item.effectData.ID == (int)EffectID.Attack_Buff))
+                    {
+                        eDamage += Mathf.RoundToInt(enemy.ATK * (enemy.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Attack_Buff).effectSize * 0.01f));
+                        enemy.currentEffectList.Remove(enemy.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Attack_Buff));
+                    }
                     break;
 
                 case (int)EnemyActionID.Charged_Attack:
-                    eDamage += (int)(enemy.currentATK * 1.5f);
+                    eDamage += Mathf.RoundToInt(enemy.ATK * 1.5f);
+                    while (enemy.currentEffectList.Exists(item => item.effectData.ID == (int)EffectID.Attack_Buff))
+                    {
+                        eDamage += Mathf.RoundToInt(enemy.ATK * (enemy.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Attack_Buff).effectSize * 0.01f));
+                        enemy.currentEffectList.Remove(enemy.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Attack_Buff));
+                    }
                     break;
 
                 case (int)EnemyActionID.Defend:
-                    eDmgDef += (int)(enemy.currentDEF * 1.0f);
+                    eDmgDef += Mathf.RoundToInt(enemy.DEF * 1.0f);
+                    while (enemy.currentEffectList.Exists(item => item.effectData.ID == (int)EffectID.Defend_Buff))
+                    {
+                        eDmgDef += Mathf.RoundToInt(enemy.DEF * (enemy.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Defend_Buff).effectSize * 0.01f));
+                        enemy.currentEffectList.Remove(enemy.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Defend_Buff));
+                    }
                     break;
 
                 case (int)EnemyActionID.Charged_Defend:
-                    eDmgDef += (int)(enemy.currentDEF * 1.5f);
+                    eDmgDef += Mathf.RoundToInt(enemy.DEF * 1.5f);
+                    while (enemy.currentEffectList.Exists(item => item.effectData.ID == (int)EffectID.Defend_Buff))
+                    {
+                        eDmgDef += Mathf.RoundToInt(enemy.DEF * (enemy.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Defend_Buff).effectSize * 0.01f));
+                        enemy.currentEffectList.Remove(enemy.currentEffectList.Find(item => item.effectData.ID == (int)EffectID.Defend_Buff));
+                    }
                     break;
 
                 case (int)EnemyActionID.Special1:
@@ -418,7 +465,25 @@ public class BattleManager : MonoBehaviour
                 case (int)EnemyActionID.Charged_Special1:
                     eCuring += 6;
                     break;
+
+                case (int)EnemyActionID.Special2:
+                    enemyScript.TakeEffect(effectDataList[(int)EffectID.Attack_Buff], 50);
+                    break;
+
+                case (int)EnemyActionID.Charged_Special2:
+                    enemyScript.TakeEffect(effectDataList[(int)EffectID.ATK_Buff], 2);
+                    break;
+
+                case (int)EnemyActionID.Special3:
+                    enemyScript.TakeEffect(effectDataList[(int)EffectID.Defend_Buff], 100);
+                    break;
+
+                case (int)EnemyActionID.Charged_Special3:
+                    pIsPiercing = true;
+                    eDamage = Mathf.RoundToInt(enemy.ATK * 1.0f);
+                    break;
             }
+
             int pUsedAP = (!actionList[i].GetComponent<PlayerAction>().isEnhanced) ? 1 : 2;
             int eUsedAP = (!actionList[i + 1].GetComponent<EnemyAction>().isEnhanced) ? 1 : 2;
             int pStanceDamage = 0;
@@ -490,28 +555,28 @@ public class BattleManager : MonoBehaviour
             actionList[i].SetActive(false);
             actionList[i + 1].SetActive(false);
 
-            pDamage = (int)((pDamage * pGivenDamageRate) * eTakenDamageRate);
-            eDamage = (int)((eDamage * eGivenDamageRate) * pTakenDamageRate);
-            player.TakeDamage(eDamage, eStanceDamage);
-            enemy.TakeDamage(pDamage, pStanceDamage);
+            pDamage = Mathf.RoundToInt((pDamage * pGivenDamageRate) * eTakenDamageRate);
+            eDamage = Mathf.RoundToInt((eDamage * eGivenDamageRate) * pTakenDamageRate);
+            playerScript.TakeDamage(eDamage, eStanceDamage);
+            enemyScript.TakeDamage(pDamage, pStanceDamage);
 
-            if (player.playerInfo.currentSP <= 0)
+            if (player.CSP <= 0)
             {
-                if (!player.playerInfo.currentEffectList.Exists(item => item.effectData.ID == (int)EffectID.Break))
+                if (!player.currentEffectList.Exists(item => item.effectData.ID == (int)EffectID.Break))
                 {
-                    player.TakeEffect(effectDataList[(int)EffectID.Break], 1);
+                    playerScript.TakeEffect(effectDataList[(int)EffectID.Break], 1);
                     if (actionList[i + 2] != null)
                     {
-                        actionList[i + 2].GetComponent<PlayerAction>().AssignAction(player.playerInfo.actionDataList[0]);
+                        actionList[i + 2].GetComponent<PlayerAction>().AssignAction(player.actionDataList[0]);
                         actionList[i + 2].GetComponent<PlayerAction>().Disable();
                     }
                 }
             }
-            if (enemy.currentSP <= 0)
+            if (enemy.CSP <= 0)
             {
-                if (!enemy.currEffectList.Exists(item => item.effectData.ID == (int)EffectID.Break))
+                if (!enemy.currentEffectList.Exists(item => item.effectData.ID == (int)EffectID.Break))
                 {
-                    enemy.TakeEffect(effectDataList[(int)EffectID.Break], 1);
+                    enemyScript.TakeEffect(effectDataList[(int)EffectID.Break], 1);
                     if (actionList[i + 3] != null)
                     {
                         actionList[i + 3].GetComponent<EnemyAction>().AssignAction(enemy.actionDataList[0]);
@@ -520,34 +585,58 @@ public class BattleManager : MonoBehaviour
                 }
             }
 
-            bool pIsDead = player.playerInfo.currentHP <= 0;
-            bool eIsDead = enemy.currentHP <= 0;
+            bool pIsDead = player.CHP <= 0;
+            bool eIsDead = enemy.CHP <= 0;
             if (!pIsDead)
             {
-                player.TakeCuring(pCuring);
+                playerScript.TakeCuring(pCuring);
             }
             if (!eIsDead)
             {
-                enemy.TakeCuring(eCuring);
+                enemyScript.TakeCuring(eCuring);
             }
 
-            playerStatus.Init(player.playerInfo);
-            enemyStatus.Init(enemy);
+            playerStatusScript.Init(player);
+            enemyStatusScript.Init(enemy);
 
             if (pIsDead || eIsDead)
             {
+                scrollView.SetActive(false);
+                result.SetActive(true);
+                EventTrigger.Entry entry_PointerClick = new EventTrigger.Entry();
+                entry_PointerClick.eventID = EventTriggerType.PointerClick;
                 if (pIsDead)
                 {
                     //게임오버 효과
+                    result.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "패배";
+                    entry_PointerClick.callback.AddListener((data) => GameManager.Instance.ChangeScene("Village"));
                 }
-                if (eIsDead)
+                else if (eIsDead)
                 {
                     //적 처치 효과
+                    switch ((GameManager.Instance.currentLevel - 1) % 3)
+                    {
+                        case 0:
+                            playerScript.AdjustStat("DEF", 1);
+                            break;
+                        case 1:
+                            playerScript.AdjustStat("DEF", 1);
+                            break;
+                        case 2:
+                            playerScript.AdjustStat("MSP", 1);
+                            break;
+                    }
+                    playerStatusScript.Init(player);
+
+                    result.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "승리";
+                    if (GameManager.Instance.currentLevel < 12)
+                        entry_PointerClick.callback.AddListener((data) => GameManager.Instance.ChangeScene("Map"));
+                    else
+                        entry_PointerClick.callback.AddListener((data) => GameManager.Instance.ChangeScene("Ending"));
                 }
+                result.transform.GetChild(1).GetComponent<EventTrigger>().triggers.Add(entry_PointerClick);
                 yield break;
             }
-
-            yield return new WaitForSeconds(0.5f);
 
             List<GameObject> pActions = actionList.Where((item, i) => item.activeSelf && i % 2 == 0).ToList();
             List<GameObject> eActions = actionList.Where((item, i) => item.activeSelf && i % 2 == 1).ToList();
@@ -558,6 +647,8 @@ public class BattleManager : MonoBehaviour
                 break;
             }
         }
+
+        yield return new WaitForSeconds(0.5f);
 
         TurnStart();
     }

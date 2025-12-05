@@ -12,26 +12,30 @@ public class GameManager : MonoBehaviour
     public static event Action<string> OnSceneChange;
 
     [Header("Player Data Assign")]
-    [SerializeField] private List<PlayerData> playerDataList;
-    [SerializeField] private int playerID;
+    public List<PlayerData> playerDataList;
+    public int playerID;
+
+    [Header("Enemy Data Assign")]
+    public List<EnemyData> enemyDataList;
+    public int enemyID;
 
     public class PlayerInfo
     {
         public int ID;
-        public Sprite playerIcon;
-        public string playerName;
+        public Sprite Icon;
+        public string Name;
         public int baseMHP;
         public int baseMSP;
         public int baseATK;
         public int baseDEF;
         public List<PlayerActionData> actionDataList;
         
-        public int currentMHP;
-        public int currentMSP;
-        public int currentHP;
-        public int currentSP;
-        public int currentATK;
-        public int currentDEF;
+        public int MHP;
+        public int MSP;
+        public int CHP;
+        public int CSP;
+        public int ATK;
+        public int DEF;
         public class CurrentEffect
         {
             public EffectData effectData;
@@ -42,25 +46,25 @@ public class GameManager : MonoBehaviour
         public PlayerInfo(PlayerData data)
         {
             ID = data.ID;
-            playerIcon = data.playerIcon;
-            playerName = data.playerName;
-            baseMHP = data.baseMHP;
-            baseMSP = data.baseMSP;
-            baseATK = data.baseATK;
-            baseDEF = data.baseDEF;
+            Icon = data.Icon;
+            Name = data.Name;
+            baseMHP = data.initialMHP;
+            baseMSP = data.initialMSP;
+            baseATK = data.initialATK;
+            baseDEF = data.initialDEF;
             actionDataList = data.actionDataList;
 
-            currentMHP = baseMHP;
-            currentMSP = baseMSP;
-            currentHP = baseMHP;
-            currentSP = baseMSP;
-            currentATK = baseATK;
-            currentDEF = baseDEF;
+            MHP = baseMHP;
+            MSP = baseMSP;
+            CHP = baseMHP;
+            CSP = baseMSP;
+            ATK = baseATK;
+            DEF = baseDEF;
 
             currentEffectList = new List<CurrentEffect>();
         }
     }
-    public PlayerInfo playerInfo;
+    public PlayerInfo player;
 
     void Awake()
     {
@@ -77,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        RunStart();
+
     }
 
     void Update()
@@ -94,9 +98,9 @@ public class GameManager : MonoBehaviour
         OnSceneChange?.Invoke(sceneName);
     }
 
-    public void RunStart()
+    public void InitializePlayer()
     {
         playerID = 0;
-        playerInfo = new PlayerInfo(playerDataList[playerID]);
+        player = new PlayerInfo(playerDataList[playerID]);
     }
 }

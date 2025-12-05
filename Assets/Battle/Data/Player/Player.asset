@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   ID: 0
-  playerIcon: {fileID: 7482667652216324306, guid: 77e0dedd34afe5f4b861487baed963f6, type: 3}
-  playerName: "\uD50C\uB808\uC774\uC5B4"
-  baseMHP: 80
-  baseMSP: 6
-  baseATK: 8
-  baseDEF: 8
+  Icon: {fileID: 4334783836991956000, guid: 96c8f103c9c980545aedc883897a9019, type: 3}
+  Name: "\uCCB4\uB974\uB178"
+  initialMHP: 80
+  initialMSP: 6
+  initialATK: 300
+  initialDEF: 8
   actionDataList:
   - {fileID: 11400000, guid: 35b556940f3aba640acc43c050e174ae, type: 2}
   - {fileID: 11400000, guid: c921d74fb589144439d7164ad1ce0b18, type: 2}

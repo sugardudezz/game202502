@@ -26,7 +26,7 @@ public class Effect : MonoBehaviour
     public void Init(EffectData data, int size)
     {
         ID = data.ID;
-        effectIcon = data.effectIcon;
+        effectIcon = data.Icon;
         effectSize = size;
 
         iconUI.sprite = effectIcon;

@@ -5,6 +5,18 @@ namespace Map
 {
     public class NodeManager : MonoBehaviour
     {
+        [SerializeField] private MapPlayer mapPlayer;
+
+        public void InitializeMap()
+        {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.currentLevel = 0;
+            }
+            SetValues();
+            SetStates();
+        }
+
         [ContextMenu("Set Values")]
         public void SetValues()
         {
@@ -19,6 +31,7 @@ namespace Map
                         break;
                     case 16:
                         child.type = LevelNode.NodeType.Boss;
+                        child.level += 1;
                         break;
                     default:
                         child.type = ((i + 1) % 4 == 0) ? LevelNode.NodeType.Explore : LevelNode.NodeType.Fight;
@@ -32,6 +45,13 @@ namespace Map
 
         private void Start()
         {
+            if (GameManager.Instance.currentLevel <= 0)
+            {
+                InitializeMap();
+                GameManager.Instance.InitializePlayer();
+            }
+
+            SetValues();
             SetStates();
             GameManager.OnSceneChange += SceneChanged;
         }

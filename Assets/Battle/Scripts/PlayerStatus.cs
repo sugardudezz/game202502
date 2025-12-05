@@ -18,10 +18,15 @@ public class PlayerStatus : MonoBehaviour
     public List<GameObject> divideList;
     public List<GameObject> effectList;
 
+    private void Awake()
+    {
+        divideList = new List<GameObject>();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        divideList = new List<GameObject>();
+
     }
 
     // Update is called once per frame
@@ -30,7 +35,7 @@ public class PlayerStatus : MonoBehaviour
 
     }
 
-    public void Init(GameManager.PlayerInfo info)
+    public void Init(GameManager.PlayerInfo player)
     {
         foreach (var divide in divideList)
         {
@@ -43,22 +48,22 @@ public class PlayerStatus : MonoBehaviour
         divideList.Clear();
         effectList.Clear();
 
-        nameText.text = info.playerName;
-        ATKPowText.text = "<sprite=1> " + info.currentATK;
-        DEFPowText.text = "<sprite=0> " + info.currentDEF;
-        healthText.text = info.currentHP + "/" + info.currentMHP;
-        healthRate.fillAmount = (float)info.currentHP / info.currentMHP;
-        stanceRate.fillAmount = (float)info.currentSP / info.currentMSP;
-        for (int i = 1; i < info.currentMSP; i++)
+        nameText.text = player.Name;
+        ATKPowText.text = "<sprite Name=\"ATKPow\"> " + player.ATK;
+        DEFPowText.text = "<sprite Name=\"DEFPow\"> " + player.DEF;
+        healthText.text = player.CHP + "/" + player.MHP;
+        healthRate.fillAmount = (float)player.CHP / player.MHP;
+        stanceRate.fillAmount = (float)player.CSP / player.MSP;
+        for (int i = 1; i < player.MSP; i++)
         {
             divideList.Add(Instantiate(prefabDivide, stanceRate.transform, false));
-            divideList[^1].GetComponent<RectTransform>().anchoredPosition = new Vector2(stanceRate.rectTransform.rect.width / info.currentMSP * i, 0);
+            divideList[^1].GetComponent<RectTransform>().anchoredPosition = new Vector2(stanceRate.rectTransform.rect.width / player.MSP * i, 0);
         }
-        for (int i = 0; i < info.currentEffectList.Count; i++)
+        for (int i = 0; i < player.currentEffectList.Count; i++)
         {
             effectList.Add(Instantiate(prefabEffect, transform.GetChild(0), false));
-            effectList[^1].GetComponent<RectTransform>().anchoredPosition = Vector2.right * (475 + 75 * (effectList.Count - 1));
-            effectList[^1].GetComponent<Effect>().Init(info.currentEffectList[i].effectData, info.currentEffectList[i].effectSize);
+            effectList[^1].GetComponent<RectTransform>().anchoredPosition = Vector2.right * (430 + 50 * (effectList.Count - 1));
+            effectList[^1].GetComponent<Effect>().Init(player.currentEffectList[i].effectData, player.currentEffectList[i].effectSize);
         }
     }
 }

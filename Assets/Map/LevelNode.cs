@@ -8,7 +8,9 @@ namespace Map
     {
         public static event Action<LevelNode> OnLevelEnter;
         public static event Action<LevelNode> OnNodeClick;
-        
+
+        private static LevelNode selectedNode;
+
         public enum NodeType
         {
             Fight,
@@ -69,6 +71,8 @@ namespace Map
 
         private void StartClick()
         {
+            if (selectedNode != this) return;
+
             OnLevelEnter?.Invoke(this);
         }
 
@@ -76,6 +80,8 @@ namespace Map
         {
             if (state == NodeState.Available)
             {
+                selectedNode = this;
+
                 OnNodeClick?.Invoke(this);
             }
         }

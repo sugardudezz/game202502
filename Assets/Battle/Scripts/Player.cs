@@ -3,28 +3,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public GameManager.PlayerInfo playerInfo;
-    //public int ID;
-    //public Sprite playerIcon;
-    //public string playerName;
-    //public int baseMHP;
-    //public int baseMSP;
-    //public int baseATK;
-    //public int baseDEF;
-    //public List<PlayerActionData> actionDataList;
-
-    //public int currentMHP;
-    //public int currentMSP;
-    //public int currentHP;
-    //public int currentSP;
-    //public int currentATK;
-    //public int currentDEF;
-
+    public GameManager.PlayerInfo player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -33,28 +17,67 @@ public class Player : MonoBehaviour
 
     }
 
-    public void Init(GameManager.PlayerInfo info)
+    public void Init()
     {
-        playerInfo = info;
+        player = GameManager.Instance.player;
 
-        GetComponent<SpriteRenderer>().sprite = playerInfo.playerIcon;
+        GetComponent<SpriteRenderer>().sprite = player.Icon;
+
+        AdjustStat();
+    }
+
+    public void AdjustStat()
+    {
+        player.MHP = player.baseMHP;
+        player.MSP = player.baseMSP;
+        player.CHP = Mathf.Min(player.CHP, player.MHP);
+        player.CSP = Mathf.Min(player.CSP, player.MSP);
+        player.ATK = player.baseATK;
+        player.DEF = player.baseDEF;
+    }
+
+    public void AdjustStat(string statName, int size)
+    {
+        switch (statName)
+        {
+            case "MHP":
+                player.baseMHP += size;
+                player.CHP += size;
+                break;
+            case "MSP":
+                player.baseMSP += size;
+                player.CSP += size;
+                break;
+            case "ATK":
+                player.baseATK += size;
+                break;
+            case "DEF":
+                player.baseDEF += size;
+                break;
+        }
+        player.MHP = player.baseMHP;
+        player.MSP = player.baseMSP;
+        player.CHP = Mathf.Min(player.CHP, player.MHP);
+        player.CSP = Mathf.Min(player.CSP, player.MSP);
+        player.ATK = player.baseATK;
+        player.DEF = player.baseDEF;
     }
 
     public void TakeDamage(int damage, int stanceDamage)
     {
-        playerInfo.currentHP = Mathf.Max(0, playerInfo.currentHP - damage);
-        playerInfo.currentSP = Mathf.Max(0, playerInfo.currentSP - stanceDamage);
+        player.CHP = Mathf.Max(0, player.CHP - damage);
+        player.CSP = Mathf.Max(0, player.CSP - stanceDamage);
     }
 
     public void TakeCuring(int curing)
     {
-        playerInfo.currentHP = Mathf.Min(playerInfo.currentHP + curing, playerInfo.currentMHP);
+        player.CHP = Mathf.Min(player.CHP + curing, player.MHP);
     }
 
     public void TakeEffect(EffectData effectData, int effectSize)
     {
-        playerInfo.currentEffectList.Add(new GameManager.PlayerInfo.CurrentEffect());
-        playerInfo.currentEffectList[^1].effectData = effectData;
-        playerInfo.currentEffectList[^1].effectSize = effectSize;
+        player.currentEffectList.Add(new GameManager.PlayerInfo.CurrentEffect());
+        player.currentEffectList[^1].effectData = effectData;
+        player.currentEffectList[^1].effectSize = effectSize;
     }
 }

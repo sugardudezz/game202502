@@ -18,10 +18,15 @@ public class EnemyStatus : MonoBehaviour
     public List<GameObject> divideList;
     public List<GameObject> effectList;
 
+    private void Awake()
+    {
+        divideList = new List<GameObject>();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        divideList = new List<GameObject>();
+
     }
 
     // Update is called once per frame
@@ -30,7 +35,7 @@ public class EnemyStatus : MonoBehaviour
 
     }
 
-    public void Init(Enemy enemy)
+    public void Init(Enemy.EnemyInfo enemy)
     {
         foreach (var divide in divideList)
         {
@@ -43,23 +48,23 @@ public class EnemyStatus : MonoBehaviour
         divideList.Clear();
         effectList.Clear();
 
-        nameText.text = enemy.enemyName;
-        ATKPowText.text = "<sprite=1> " + enemy.currentATK;
-        DEFPowText.text = "<sprite=0> " + enemy.currentDEF;
-        healthText.text = enemy.currentHP + "/" + enemy.currentMHP;
-        healthRate.fillAmount = (float)enemy.currentHP / enemy.currentMHP;
-        stanceRate.fillAmount = (float)enemy.currentSP / enemy.currentMSP;
-        for (int i = 1; i < enemy.currentMSP; i++)
+        nameText.text = enemy.Name;
+        ATKPowText.text = "<sprite Name=\"ATKPow\"> " + enemy.ATK;
+        DEFPowText.text = "<sprite Name=\"DEFPow\"> " + enemy.DEF;
+        healthText.text = enemy.CHP + "/" + enemy.MHP;
+        healthRate.fillAmount = (float)enemy.CHP / enemy.MHP;
+        stanceRate.fillAmount = (float)enemy.CSP / enemy.MSP;
+        for (int i = 1; i < enemy.MSP; i++)
         {
-            divideList.Add(Instantiate(prefabDivide, new Vector3(stanceRate.rectTransform.rect.width / enemy.currentMSP * i, 0, 0), Quaternion.identity));
+            divideList.Add(Instantiate(prefabDivide, new Vector3(stanceRate.rectTransform.rect.width / enemy.MSP * i, 0, 0), Quaternion.identity));
             divideList[^1].transform.SetParent(stanceRate.transform, false);
         }
-        for (int i = 0; i < enemy.currEffectList.Count; i++)
+        for (int i = 0; i < enemy.currentEffectList.Count; i++)
         {
             effectList.Add(Instantiate(prefabEffect, transform.GetChild(0), false));
-            effectList[^1].GetComponent<RectTransform>().anchoredPosition = Vector2.right * (475 + 75 * (effectList.Count - 1));
+            effectList[^1].GetComponent<RectTransform>().anchoredPosition = Vector2.right * (430 + 50 * (effectList.Count - 1));
             effectList[^1].GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1);
-            effectList[^1].GetComponent<Effect>().Init(enemy.currEffectList[i].effectData, enemy.currEffectList[i].effectSize);
+            effectList[^1].GetComponent<Effect>().Init(enemy.currentEffectList[i].effectData, enemy.currentEffectList[i].effectSize);
         }
     }
 }

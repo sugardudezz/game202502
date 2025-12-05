@@ -9,9 +9,9 @@ public class TextLineFadeIn : MonoBehaviour
     public Button targetButton;
     public GameObject targetButtonObject;
 
-    public float fadeInDurationPerLine = 0.5f; // 각 줄이 페이드 인 되는 시간
-    public float delayBetweenLines = 0.2f;      // 각 줄의 페이드 인 시작 간 딜레이
-    public float initialDelay = 1.5f; // 씬 로드 후 애니메이션 시작까지의 지연 시간
+    public float fadeInDurationPerLine;     // 각 줄이 페이드 인 되는 시간
+    public float delayBetweenLines;         // 각 줄의 페이드 인 시작 간 딜레이
+    public float initialDelay;              // 씬 로드 후 애니메이션 시작까지의 지연 시간
 
     void Awake()
     {

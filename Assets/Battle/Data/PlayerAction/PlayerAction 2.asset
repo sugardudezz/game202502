@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerActionData
   ID: 2
   isEnhanced: 1
-  actionIcon: {fileID: -566299823056026979, guid: 59e061a11a4352a4d969d3734aec2bc6, type: 3}
+  actionIcon: {fileID: 1434188575558437689, guid: 2869c2fc6398934429409caba7a6acca, type: 3}
   actionName: "\uAC15\uACF5\uACA9"
   actionDesc: "<sprite name=\"ATKPow\"> <color=#ff0000ff>150%</color>\uC758 \uD53C\uD574\uB97C
     \uAC00\uD569\uB2C8\uB2E4"

@@ -10,10 +10,12 @@ namespace Map
         private Vector3 direction;
         
         private bool moving;
-        private static Vector3 lastPos = new (-6, -1, 0);
+        private static Vector3 initPos = new Vector3(-6, -1, 0);
+        private static Vector3 lastPos = initPos;
 
         private void Start()
         {
+            if (GameManager.Instance.currentLevel == 0) lastPos = initPos;
             transform.position = lastPos;
             moving = false;
             LevelNode.OnLevelEnter += EnterLevel;
@@ -56,7 +58,7 @@ namespace Map
                     targetScene = "Battle";
                     break;
                 case LevelNode.NodeType.Explore:
-                    targetScene = "Main";
+                    targetScene = "Event";
                     break;
                 default:
                     Debug.Log("This node type has undefined scene target!");

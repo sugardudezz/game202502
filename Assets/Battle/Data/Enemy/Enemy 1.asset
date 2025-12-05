@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Enemy 1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   ID: 1
-  enemyIcon: {fileID: 7482667652216324306, guid: ca35355d30469f743b7c179d529dad84, type: 3}
-  enemyName: "\uC8012"
-  baseMHP: 35
-  baseMSP: 6
-  baseATK: 8
-  baseDEF: 2
+  Icon: {fileID: 8295831974563768771, guid: c4468ec192c295f4b8ceee315550a47b, type: 3}
+  Name: "\uC8012"
+  initialMHP: 30
+  initialMSP: 6
+  initialATK: 6
+  initialDEF: 6
   actionDataList:
   - {fileID: 11400000, guid: 2f29c70dcc2930543a019f44ac9eb6cc, type: 2}
   - {fileID: 11400000, guid: 8e2ceb97fc894124391067ff345af552, type: 2}

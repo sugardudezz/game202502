@@ -28,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -79,13 +79,13 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 6f8bf4574348d464e97799055644cfb5, type: 3}
-  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: -5877798333446495604, guid: 17077cdb58b09334399fdcbba4e5395e, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.06, y: 0.08}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -103,16 +103,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bbde2004cca3464ca3fe869440efa6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  ID: 0
-  enemyName: 
-  baseHP: 0
-  baseSP: 0
-  baseATK: 0
-  baseDEF: 0
-  actionDataList: []
-  maxHP: 0
-  maxSP: 0
-  currentHP: 0
-  currentSP: 0
-  currentATK: 0
-  currentDEF: 0

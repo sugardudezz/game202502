@@ -32,7 +32,7 @@ public class EnemyAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     }
 
-    public void Init(Enemy enemy)
+    public void Init(Enemy.EnemyInfo enemy)
     {
         actionDataList = enemy.actionDataList;
 

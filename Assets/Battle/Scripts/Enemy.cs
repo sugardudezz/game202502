@@ -3,33 +3,58 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int ID;
-    public Sprite enemyIcon;
-    public string enemyName;
-    public int baseMHP;
-    public int baseMSP;
-    public int baseATK;
-    public int baseDEF;
-    public List<EnemyActionData> actionDataList;
-
-    public int currentMHP;
-    public int currentMSP;
-    public int currentHP;
-    public int currentSP;
-    public int currentATK;
-    public int currentDEF;
-
-    public class CurrEffect
+    public class EnemyInfo
     {
-        public EffectData effectData;
-        public int effectSize;
+        public int ID;
+        public Sprite Icon;
+        public string Name;
+        public int baseMHP;
+        public int baseMSP;
+        public int baseATK;
+        public int baseDEF;
+        public List<EnemyActionData> actionDataList;
+
+        public int MHP;
+        public int MSP;
+        public int CHP;
+        public int CSP;
+        public int ATK;
+        public int DEF;
+
+        public class CurrentEffect
+        {
+            public EffectData effectData;
+            public int effectSize;
+        }
+        public List<CurrentEffect> currentEffectList;
+
+        public EnemyInfo(EnemyData data)
+        {
+            ID = data.ID;
+            Icon = data.Icon;
+            Name = data.Name;
+            baseMHP = data.initialMHP;
+            baseMSP = data.initialMSP;
+            baseATK = data.initialATK;
+            baseDEF = data.initialDEF;
+            actionDataList = data.actionDataList;
+
+            MHP = baseMHP;
+            MSP = baseMSP;
+            CHP = baseMHP;
+            CSP = baseMSP;
+            ATK = baseATK;
+            DEF = baseDEF;
+
+            currentEffectList = new List<CurrentEffect>();
+        }
     }
-    public List<CurrEffect> currEffectList;
+    public EnemyInfo enemy;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -40,42 +65,65 @@ public class Enemy : MonoBehaviour
 
     public void Init(EnemyData data)
     {
-        ID = data.ID;
-        enemyIcon = data.enemyIcon;
-        enemyName = data.enemyName;
-        baseMHP = data.baseMHP;
-        baseMSP = data.baseMSP;
-        baseATK = data.baseATK;
-        baseDEF = data.baseDEF;
-        actionDataList = data.actionDataList;
+        enemy = new EnemyInfo(data);
 
-        currentMHP = baseMHP;
-        currentMSP = baseMSP;
-        currentHP = baseMHP;
-        currentSP = baseMSP;
-        currentATK = baseATK;
-        currentDEF = baseDEF;
+        GetComponent<SpriteRenderer>().sprite = enemy.Icon;
 
-        currEffectList = new List<CurrEffect>();
+        AdjustStat();
+    }
 
-        GetComponent<SpriteRenderer>().sprite = enemyIcon;
+    public void AdjustStat()
+    {
+        enemy.MHP = enemy.baseMHP;
+        enemy.MSP = enemy.baseMSP;
+        enemy.CHP = Mathf.Min(enemy.CHP, enemy.MHP);
+        enemy.CSP = Mathf.Min(enemy.CSP, enemy.MSP);
+        enemy.ATK = enemy.baseATK;
+        enemy.DEF = enemy.baseDEF;
+    }
+
+    public void AdjustStat(string statName, int size)
+    {
+        switch (statName)
+        {
+            case "MHP":
+                enemy.baseMHP += size;
+                enemy.CHP += size;
+                break;
+            case "MSP":
+                enemy.baseMSP += size;
+                enemy.CSP += size;
+                break;
+            case "ATK":
+                enemy.baseATK += size;
+                break;
+            case "DEF":
+                enemy.baseDEF += size;
+                break;
+        }
+        enemy.MHP = enemy.baseMHP;
+        enemy.MSP = enemy.baseMSP;
+        enemy.CHP = Mathf.Min(enemy.CHP, enemy.MHP);
+        enemy.CSP = Mathf.Min(enemy.CSP, enemy.MSP);
+        enemy.ATK = enemy.baseATK;
+        enemy.DEF = enemy.baseDEF;
     }
 
     public void TakeDamage(int damage, int stanceDamage)
     {
-        currentHP = Mathf.Max(0, currentHP - damage);
-        currentSP = Mathf.Max(0, currentSP - stanceDamage);
+        enemy.CHP = Mathf.Max(0, enemy.CHP - damage);
+        enemy.CSP = Mathf.Max(0, enemy.CSP - stanceDamage);
     }
 
     public void TakeCuring(int curing)
     {
-        currentHP = Mathf.Min(currentHP + curing, currentMHP);
+        enemy.CHP = Mathf.Min(enemy.CHP + curing, enemy.MHP);
     }
 
     public void TakeEffect(EffectData effectData, int effectSize)
     {
-        currEffectList.Add(new CurrEffect());
-        currEffectList[^1].effectData = effectData;
-        currEffectList[^1].effectSize = effectSize;
+        enemy.currentEffectList.Add(new EnemyInfo.CurrentEffect());
+        enemy.currentEffectList[^1].effectData = effectData;
+        enemy.currentEffectList[^1].effectSize = effectSize;
     }
 }

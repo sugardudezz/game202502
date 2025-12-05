@@ -5,11 +5,11 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     public int ID;
-    public Sprite enemyIcon;
-    public string enemyName;
-    public int baseMHP;
-    public int baseMSP;
-    public int baseATK;
-    public int baseDEF;
+    public Sprite Icon;
+    public string Name;
+    public int initialMHP;
+    public int initialMSP;
+    public int initialATK;
+    public int initialDEF;
     public List<EnemyActionData> actionDataList;
 }

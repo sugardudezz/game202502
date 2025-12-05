@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f7a62a6b2ab6d4fac24a7786007ee8, type: 3}
+  m_Name: Enemy 10
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  ID: 10
+  Icon: {fileID: 7574722205383545943, guid: 70e05cd10b6472946bb9ad8e01e59b3b, type: 3}
+  Name: "\uBCA8\uB85C"
+  initialMHP: 30
+  initialMSP: 6
+  initialATK: 6
+  initialDEF: 6
+  actionDataList:
+  - {fileID: 11400000, guid: 2f29c70dcc2930543a019f44ac9eb6cc, type: 2}
+  - {fileID: 11400000, guid: 8e2ceb97fc894124391067ff345af552, type: 2}
+  - {fileID: 11400000, guid: 280db69cca469f4479bd10d370ef155a, type: 2}
+  - {fileID: 11400000, guid: 82c4e0e28d7e7424994fefbb6a39d17e, type: 2}
+  - {fileID: 11400000, guid: 4481ee156dc4cf940bddb1f07738e484, type: 2}
+  - {fileID: 11400000, guid: 66f0ee5c728fcbc4e8bb76f263eb7b39, type: 2}
+  - {fileID: 11400000, guid: c05e89aa41c30e24e9e80a64df5fa91b, type: 2}
