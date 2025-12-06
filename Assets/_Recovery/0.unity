@@ -222,9 +222,8 @@ GameObject:
   - component: {fileID: 364771770}
   - component: {fileID: 364771769}
   - component: {fileID: 364771767}
-  - component: {fileID: 364771772}
   m_Layer: 5
-  m_Name: Creator
+  m_Name: Team
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -338,19 +337,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 364771770}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 364771772}
-        m_TargetAssemblyTypeName: TitleManager, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Creator
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &364771770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,19 +376,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364771765}
   m_CullTransparentMesh: 1
---- !u!114 &364771772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 364771765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca0109481ee0c3f40a6abc7919c6a28f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TitleManager
-  hoverScale: {x: 0, y: 0, z: 0}
 --- !u!1 &526171081
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,10 +629,8 @@ GameObject:
   - component: {fileID: 1173607687}
   - component: {fileID: 1173607686}
   - component: {fileID: 1173607684}
-  - component: {fileID: 1173607689}
-  - component: {fileID: 1173607690}
   m_Layer: 5
-  m_Name: Instructions
+  m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -772,19 +744,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1173607687}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1525245277}
-        m_TargetAssemblyTypeName: TitleManager, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Instructions
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1173607687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -823,31 +783,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1173607682}
   m_CullTransparentMesh: 1
---- !u!114 &1173607689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1173607682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1f09fc13e1ad8044b2588121bb5cac7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
---- !u!114 &1173607690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1173607682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca0109481ee0c3f40a6abc7919c6a28f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TitleManager
-  hoverScale: {x: 0, y: 0, z: 0}
 --- !u!1 &1197724386
 GameObject:
   m_ObjectHideFlags: 0
@@ -1117,7 +1052,6 @@ GameObject:
   - component: {fileID: 1419872592}
   - component: {fileID: 1419872594}
   - component: {fileID: 1419872593}
-  - component: {fileID: 1419872595}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1243,18 +1177,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1419872591}
   m_CullTransparentMesh: 1
---- !u!114 &1419872595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1419872591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1f09fc13e1ad8044b2588121bb5cac7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
 --- !u!1 &1525245276
 GameObject:
   m_ObjectHideFlags: 0
