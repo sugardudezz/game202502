@@ -117,6 +117,15 @@ public class PlayerAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         SelectWindow.transform.GetComponent<SelectWindow>().Init(this);
     }
 
+    public void Enable()
+    {
+        isEnabled = true;
+
+        GetComponent<Image>().color = new Color(1, 1, 1, 1f);
+
+        GetComponent<Button>().interactable = true;
+    }
+
     public void Disable()
     {
         if (isEnabled)

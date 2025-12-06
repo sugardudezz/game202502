@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 3
   Icon: {fileID: 819526922085735872, guid: 4e41e505026acae478a762b86d4e3d33, type: 3}
   Name: "\uC8014"
-  initialMHP: 30
+  initialMHP: 40
   initialMSP: 6
   initialATK: 6
   initialDEF: 6
@@ -25,5 +25,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 280db69cca469f4479bd10d370ef155a, type: 2}
   - {fileID: 11400000, guid: 82c4e0e28d7e7424994fefbb6a39d17e, type: 2}
   - {fileID: 11400000, guid: 4481ee156dc4cf940bddb1f07738e484, type: 2}
-  - {fileID: 11400000, guid: 08d98e8a4976a6843b564933c6f0dd5e, type: 2}
-  - {fileID: 11400000, guid: 77d54596279a1444ea8e56e9dfb4c777, type: 2}
+  - {fileID: 11400000, guid: 207902f73a4c9e644afa1cca06f5f8e6, type: 2}
+  - {fileID: 11400000, guid: 889eb78ec3791fe4e8e35cd274fdb8a8, type: 2}

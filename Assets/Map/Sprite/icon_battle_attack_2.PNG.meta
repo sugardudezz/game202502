@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b40ad2acf3385d74d90e187a00aa6678
+guid: 16b9ee1545a15d24893abf7c32694ba0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7008412969330441016
-    second: Attack_0
+      213: 1434188575558437689
+    second: icon_battle_attack_2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Attack_0
+      name: icon_battle_attack_2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 120
-        height: 120
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8c481db598d1dbe90800000000000000
-      internalID: -7008412969330441016
+      spriteID: 93b851b29e247e310800000000000000
+      internalID: 1434188575558437689
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Attack_0: -7008412969330441016
+      icon_battle_attack_2_0: 1434188575558437689
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

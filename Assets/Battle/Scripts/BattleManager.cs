@@ -161,6 +161,7 @@ public class BattleManager : MonoBehaviour
             if (player.currentEffectList[i].effectData.ID == (int)EffectID.Break)
             {
                 player.currentEffectList.RemoveAt(i);
+                continue;
             }
         }
         for (int i = enemy.currentEffectList.Count - 1; i >= 0; i--)
@@ -168,6 +169,7 @@ public class BattleManager : MonoBehaviour
             if (enemy.currentEffectList[i].effectData.ID == (int)EffectID.Break)
             {
                 enemy.currentEffectList.RemoveAt(i);
+                continue;
             }
             if (enemy.currentEffectList[i].effectData.ID == (int)EffectID.ATK_Buff)
             {
@@ -289,6 +291,25 @@ public class BattleManager : MonoBehaviour
 
         while (turnSwitch.GetComponent<TurnSwitch>().isPlanningTurn)
         {
+            for (int i = 0; i < actionList.Count; i += 2)
+            {
+                int t = player.MSP - playerAP;
+                for (int j = 0; j < actionList.Count; j += 2)
+                {
+                    if (actionList[j].GetComponent<PlayerAction>().isEnhanced)
+                    {
+                        t -= 1;
+                    }
+                }
+                if (i / 2 <= t)
+                {
+                    actionList[i].GetComponent<PlayerAction>().Enable();
+                }
+                else
+                {
+                    actionList[i].GetComponent<PlayerAction>().Disable();
+                }
+            }
             if (playerAP <= 0)
             {
                 isAPZero = true;
@@ -459,11 +480,11 @@ public class BattleManager : MonoBehaviour
                     break;
 
                 case (int)EnemyActionID.Special1:
-                    eCuring += 4;
+                    eCuring += 2;
                     break;
 
                 case (int)EnemyActionID.Charged_Special1:
-                    eCuring += 6;
+                    eCuring += 4;
                     break;
 
                 case (int)EnemyActionID.Special2:

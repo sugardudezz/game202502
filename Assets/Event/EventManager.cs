@@ -24,7 +24,7 @@ public class EventManager : MonoBehaviour
 
     public void Rest()
     {
-        player.baseMHP += 5;
+        player.baseMHP += 20;
         player.MHP = player.baseMHP;
         player.CHP = player.MHP;
         ChangeScene("Map");
@@ -32,7 +32,7 @@ public class EventManager : MonoBehaviour
 
     public void Upgrade()
     {
-        player.ATK += 2;
+        player.baseATK += 2;
         ChangeScene("Map");
     }
 

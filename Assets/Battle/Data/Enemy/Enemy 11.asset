@@ -15,10 +15,10 @@ MonoBehaviour:
   ID: 11
   Icon: {fileID: -5912800498141821623, guid: 9a851c90832f3364eae31e4dba6939e9, type: 3}
   Name: "\uBCA8\uB85C"
-  initialMHP: 30
-  initialMSP: 6
-  initialATK: 6
-  initialDEF: 6
+  initialMHP: 80
+  initialMSP: 8
+  initialATK: 12
+  initialDEF: 12
   actionDataList:
   - {fileID: 11400000, guid: 2f29c70dcc2930543a019f44ac9eb6cc, type: 2}
   - {fileID: 11400000, guid: 8e2ceb97fc894124391067ff345af552, type: 2}

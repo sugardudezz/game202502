@@ -491,8 +491,8 @@ MonoBehaviour:
   targetButton: {fileID: 1714753199}
   targetButtonObject: {fileID: 1714753194}
   fadeInDurationPerLine: 0.1
-  delayBetweenLines: 0.5
-  initialDelay: 1
+  delayBetweenLines: 0.3
+  initialDelay: 0.5
 --- !u!114 &1207324900
 MonoBehaviour:
   m_ObjectHideFlags: 0

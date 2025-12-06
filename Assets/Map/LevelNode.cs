@@ -49,7 +49,7 @@ namespace Map
                         sprite.color = new Color(0.5f, 0.5f, 0.5f, 1f);
                         break;
                     case NodeState.Current:
-                        sprite.color = Color.white;
+                        sprite.color = new Color(0.5f, 0.5f, 0.5f, 1f);
                         break;
                     case NodeState.Available:
                         sprite.enabled = true;

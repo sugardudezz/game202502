@@ -5,8 +5,6 @@ namespace Map
 {
     public class NodeManager : MonoBehaviour
     {
-        [SerializeField] private MapPlayer mapPlayer;
-
         public void InitializeMap()
         {
             if (GameManager.Instance != null)
