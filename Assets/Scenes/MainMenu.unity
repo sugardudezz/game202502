@@ -284,6 +284,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ad4e6c2a9ea644489ea23fbc11bf1ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  currentLevel: 0
+  playerDataList: []
+  playerID: 0
+  enemyDataList: []
+  enemyID: 0
 --- !u!4 &1222890308
 Transform:
   m_ObjectHideFlags: 0

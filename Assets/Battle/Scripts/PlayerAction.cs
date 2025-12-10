@@ -27,6 +27,7 @@ public class PlayerAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public bool isEnabled;
 
     public event Action OnActionAssigned;
+    public static event Action<PlayerActionData> OnActionAssignedStatic;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -61,8 +62,9 @@ public class PlayerAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         GetComponent<Image>().sprite = actionIcon;
 
         OnActionAssigned?.Invoke();
+        OnActionAssignedStatic?.Invoke(data);
 
-        if (SelectWindow != null)
+        if (SelectWindow)
         {
             Destroy(DetailWindow);
             Destroy(SelectWindow);
@@ -143,6 +145,8 @@ public class PlayerAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
 
+    public static event Action OnUIHover;
+    
     public void OnPointerEnter(PointerEventData eventData)
     {
         ShowDetailWindow();

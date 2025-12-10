@@ -55,6 +55,8 @@ public class EnemyAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         GetComponent<Image>().color = new Color(1, 1, 1, 0.4f);
         GetComponent<Button>().interactable = false;
     }
+    
+    public static event Action OnUIHover;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
