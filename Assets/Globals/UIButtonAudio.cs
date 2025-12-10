@@ -22,7 +22,7 @@ public class UIButtonAudio : MonoBehaviour
     
     private void Awake()
     {
-        if (!instance)
+        if (instance && instance != this)
         {
             Destroy(gameObject);
             return;
